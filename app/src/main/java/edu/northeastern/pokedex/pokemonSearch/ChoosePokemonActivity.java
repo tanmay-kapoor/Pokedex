@@ -122,13 +122,13 @@ public class ChoosePokemonActivity extends AppCompatActivity {
             try {
                 String pokeListResult = NetworkUtil.httpResponse(new URL(pokeListLink));
                 JSONObject pokeListJSON = new JSONObject(pokeListResult);
-                if(pokeListJSON.has("next")) {
+                if(!String.valueOf(pokeListJSON.get("next")).equals("null")) {
                     nextPokeListLink = String.valueOf(pokeListJSON.get("next"));
                 }
                 else{
                     nextPokeListLink = null;
                 }
-                if(pokeListJSON.has("previous")) {
+                if(!String.valueOf(pokeListJSON.get("previous")).equals("null")) {
                     prevPokeListLink = String.valueOf(pokeListJSON.get("previous"));
                 }
                 else {

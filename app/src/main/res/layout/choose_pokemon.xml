@@ -15,6 +15,7 @@
         android:layout_marginBottom="1dp"
         android:ems="10"
         android:hint="Enter a PokeID"
+        android:focusedByDefault="false"
         android:inputType="numberSigned"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
