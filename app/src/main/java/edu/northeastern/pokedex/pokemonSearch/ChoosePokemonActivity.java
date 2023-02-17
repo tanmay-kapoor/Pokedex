@@ -39,9 +39,8 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_pokemon);
-
         searchView = findViewById(R.id.pokemonSV);
-
+        pokemonList.add(new Pokemon("Bulb", "", 1));
         init(savedInstanceState);
     }
 
@@ -103,10 +102,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
                             String.valueOf(pokemons.getJSONObject(i).get("url")),
                             i
                     ));
-                }
-
-                for(Pokemon p: pokemonList) {
-                    System.out.println(p);
+                    recyclerView.getAdapter().notifyItemInserted(pokemonList.size()-1);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
