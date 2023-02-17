@@ -20,15 +20,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokemonsRV"
-        android:layout_width="409dp"
-        android:layout_height="631dp"
+        android:layout_width="410dp"
+        android:layout_height="536dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pokemonSV"
         app:layout_constraintVertical_bias="0.0" />
@@ -42,4 +42,28 @@
         app:layout_constraintLeft_toLeftOf="@id/pokemonSV"
         app:layout_constraintRight_toRightOf="@id/pokemonSV"
         app:layout_constraintTop_toBottomOf="@+id/pokemonSV"></ProgressBar>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/prevBtn"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+
+    <Button
+        android:id="@+id/prevBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Prev"
+        app:layout_constraintEnd_toStartOf="@+id/nextBtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
