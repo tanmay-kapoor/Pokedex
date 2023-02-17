@@ -26,12 +26,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.northeastern.pokedex.MainActivity;
+import edu.northeastern.pokedex.PokemonDetailsActivity;
 import edu.northeastern.pokedex.R;
 import edu.northeastern.pokedex.models.Pokemon;
 import edu.northeastern.pokedex.utils.NetworkUtil;
 
 public class ChoosePokemonActivity extends AppCompatActivity {
     private List<Pokemon> pokemonList = new ArrayList<>();
+
     private SearchView searchView;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager recyclerLayoutManger;
@@ -103,8 +106,12 @@ public class ChoosePokemonActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                    startActivity(intent);
+//                    recyclerAdapter.notifyItemChanged(position);
 
+                    Intent intent = new Intent(ChoosePokemonActivity.this, PokemonDetailsActivity.class);
+                    intent.putExtra("pokemonId", pokemonList.get(position).getId());
                     startActivity(intent);
                     recyclerAdapter.notifyItemChanged(position);
                 } catch (Exception e) {
