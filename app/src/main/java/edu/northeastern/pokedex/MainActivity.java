@@ -15,12 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button atYourServiceBtn = findViewById(R.id.AtYourService);
-        atYourServiceBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, ChoosePokemonActivity.class);
-            startActivity(intent);
-        });
-
-
+        Button aysBtn = findViewById(R.id.AtYourService);
+        aysBtn.setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this, Pokedex.class)));
     }
 }
