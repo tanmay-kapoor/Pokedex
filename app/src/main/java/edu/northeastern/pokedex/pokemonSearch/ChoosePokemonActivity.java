@@ -6,14 +6,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +25,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.northeastern.pokedex.MainActivity;
 import edu.northeastern.pokedex.PokemonDetailsActivity;
 import edu.northeastern.pokedex.R;
 import edu.northeastern.pokedex.models.Pokemon;
@@ -34,8 +32,6 @@ import edu.northeastern.pokedex.utils.NetworkUtil;
 
 public class ChoosePokemonActivity extends AppCompatActivity {
     private List<Pokemon> pokemonList = new ArrayList<>();
-
-    private SearchView searchView;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager recyclerLayoutManger;
     private RecyclerAdapter recyclerAdapter;
@@ -45,6 +41,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     private String prevPokeListLink;
     private String nextPokeListLink;
     private ProgressBar progressBar;
+    private EditText searchEditText;
 
     @Override
 
@@ -54,10 +51,10 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         prevPokeListLink = null;
         nextPokeListLink = null;
         setContentView(R.layout.choose_pokemon);
-        searchView = findViewById(R.id.pokemonSV);
         previousButton = findViewById(R.id.prevBtn);
         nextButton = findViewById(R.id.nextBtn);
         progressBar = findViewById(R.id.progressBar);
+        searchEditText = findViewById(R.id.pokeIDSearch);
         init(savedInstanceState);
     }
 
@@ -76,6 +73,13 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         currPokeListLink = prevPokeListLink;
         recycleRecyclerView();
     }
+
+    public void searchPokeID(View view) {
+        Intent intent = new Intent(getApplicationContext(), PokemonDetailsActivity.class);
+        intent.putExtra("pokemonId", Integer.parseInt(searchEditText.getText().toString()));
+        startActivity(intent);
+    }
+
 
     private void init(Bundle savedInstanceState) {
         recycleRecyclerView();
@@ -102,35 +106,9 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
         recyclerAdapter = new RecyclerAdapter(pokemonList);
 
-        ItemClickListener itemClickListener = new ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                try {
-//                    Intent intent = new Intent(Intent.ACTION_VIEW);
-//                    startActivity(intent);
-//                    recyclerAdapter.notifyItemChanged(position);
-
-//                    Intent intent = new Intent(ChoosePokemonActivity.this, PokemonDetailsActivity.class);
-//                    intent.putExtra("pokemonId", pokemonList.get(position).getId());
-//                    startActivity(intent);
-//                    recyclerAdapter.notifyItemChanged(position);
-                } catch (Exception e) {
-                    Snackbar snackbar = Snackbar.make(recyclerView, "Pokedata not found!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-            }
-
-            @Override
-            public void onEditBtnClick(int position) {
-
-            }
-        };
-
-        recyclerAdapter.setOnItemClickListener(itemClickListener);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(recyclerLayoutManger);
     }
-
 
     private class PokemonList implements Runnable {
         String pokeListLink;
@@ -147,8 +125,14 @@ public class ChoosePokemonActivity extends AppCompatActivity {
                 if(pokeListJSON.has("next")) {
                     nextPokeListLink = String.valueOf(pokeListJSON.get("next"));
                 }
+                else{
+                    nextPokeListLink = null;
+                }
                 if(pokeListJSON.has("previous")) {
                     prevPokeListLink = String.valueOf(pokeListJSON.get("previous"));
+                }
+                else {
+                    prevPokeListLink = null;
                 }
                 JSONArray pokemonOverview = pokeListJSON.getJSONArray("results");
                 for (int i = 0; i < pokemonOverview.length(); i++) {

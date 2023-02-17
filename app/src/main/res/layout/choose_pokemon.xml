@@ -5,18 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <SearchView
-        android:id="@+id/pokemonSV"
-        android:layout_width="409dp"
-        android:layout_height="93dp"
+    <EditText
+        android:id="@+id/pokeIDSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="1dp"
+        android:ems="10"
+        android:hint="Enter a PokeID"
+        android:inputType="numberSigned"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.007" />
+        app:layout_constraintVertical_bias="0.008" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokemonsRV"
@@ -30,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonSV"
+        app:layout_constraintTop_toBottomOf="@+id/pokeIDSearch"
         app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
@@ -39,9 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="280dp"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="@id/pokemonSV"
-        app:layout_constraintRight_toRightOf="@id/pokemonSV"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonSV"></ProgressBar>
+        app:layout_constraintLeft_toLeftOf="@id/pokeIDSearch"
+        app:layout_constraintRight_toRightOf="@id/pokeIDSearch"
+        app:layout_constraintTop_toBottomOf="@+id/pokeIDSearch"></ProgressBar>
 
     <Button
         android:id="@+id/nextBtn"
@@ -71,5 +75,21 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="1dp"
+        android:text="Search"
+        android:onClick="searchPokeID"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pokeIDSearch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.002" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
