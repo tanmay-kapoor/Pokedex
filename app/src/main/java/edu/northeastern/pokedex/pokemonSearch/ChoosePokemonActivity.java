@@ -71,7 +71,6 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
                     startActivity(intent);
                     recyclerAdapter.notifyItemChanged(position);
-
                 } catch (Exception e) {
                     Snackbar snackbar = Snackbar.make(recyclerView, "Pokedata not found!", Snackbar.LENGTH_SHORT);
                     snackbar.show();
