@@ -26,7 +26,9 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_details);
 
-        Thread pokemonDetails = new Thread(new PokemonDetails(1));
+        Bundle extras = getIntent().getExtras();
+        int id = Integer.parseInt(extras.getString("pokemonId"));
+        Thread pokemonDetails = new Thread(new PokemonDetails(id));
         pokemonDetails.start();
     }
 
