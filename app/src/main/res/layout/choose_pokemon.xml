@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/prevBtn"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+        app:layout_constraintTop_toBottomOf="@+id/pokeIDSearch" />
 
     <Button
         android:id="@+id/prevBtn"
@@ -74,7 +74,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+        app:layout_constraintTop_toBottomOf="@+id/pokeIDSearch" />
 
     <Button
         android:id="@+id/searchButton"
