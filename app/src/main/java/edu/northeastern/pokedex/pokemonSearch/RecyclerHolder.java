@@ -2,6 +2,7 @@ package edu.northeastern.pokedex.pokemonSearch;
 
 import android.media.Image;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -12,7 +13,7 @@ import java.text.BreakIterator;
 import edu.northeastern.pokedex.R;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder{
-    View pokemonImage;
+    ImageView pokemonImage;
     TextView pokemonName;
     private CardView pokemonItem;
 

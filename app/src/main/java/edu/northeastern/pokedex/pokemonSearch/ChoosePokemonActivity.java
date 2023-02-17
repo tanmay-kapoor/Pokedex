@@ -1,6 +1,8 @@
 package edu.northeastern.pokedex.pokemonSearch;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +44,6 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_pokemon);
         searchView = findViewById(R.id.pokemonSV);
-        pokemonList.add(new Pokemon("Bulb", "", 1));
         init(savedInstanceState);
     }
 
@@ -96,11 +99,25 @@ public class ChoosePokemonActivity extends AppCompatActivity {
                 String res = NetworkUtil.httpResponse(url);
                 JSONObject pokemonData = new JSONObject(res);
                 JSONArray pokemons = pokemonData.getJSONArray("results");
+                String pokemonURL;
                 for (int i = 0; i < pokemons.length(); i++) {
+                    pokemonURL = String.valueOf(pokemons.getJSONObject(i).get("url"));
+                    String pokemonResult = NetworkUtil.httpResponse(new URL(pokemonURL));
+                    JSONObject pokemon = new JSONObject(pokemonResult);
+                    ////// Get image bitmap
+
+                    URL urlConnection = new URL(String.valueOf(pokemon.getJSONObject("sprites").get("front_default")));
+                    HttpURLConnection connection = (HttpURLConnection) urlConnection
+                            .openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
                     pokemonList.add(new Pokemon(
                             String.valueOf(pokemons.getJSONObject(i).get("name")),
                             String.valueOf(pokemons.getJSONObject(i).get("url")),
-                            i
+                            i,
+                            myBitmap
                     ));
                     recyclerView.getAdapter().notifyItemInserted(pokemonList.size()-1);
                 }
