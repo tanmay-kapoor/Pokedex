@@ -37,6 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         Pokemon pokemon = pokemonList.get(position);
         holder.pokemonName.setText(pokemon.getName());
         holder.pokemonImage.setImageBitmap(pokemon.getImageBitmap());
+        holder.pokeID = pokemon.getId();
     }
 
     @Override

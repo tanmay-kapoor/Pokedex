@@ -26,6 +26,8 @@
                 android:value="" />
         </activity>
         <activity android:name=".pokemonSearch.ChoosePokemonActivity"/>
+        <activity android:name=".PokemonDetailsActivity"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
