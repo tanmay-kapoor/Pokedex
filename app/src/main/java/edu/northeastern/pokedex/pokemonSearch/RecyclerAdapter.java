@@ -20,6 +20,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         this.pokemonList = pokemonList;
     }
 
+    public void setOnItemClickListener(ItemClickListener listener) {
+        this.listener = listener;
+    }
+
+
     @NonNull
     @Override
     public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
