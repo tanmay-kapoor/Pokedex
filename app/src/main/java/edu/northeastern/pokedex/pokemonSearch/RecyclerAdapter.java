@@ -35,7 +35,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         Pokemon pokemon = pokemonList.get(position);
-
         holder.pokemonName.setText(pokemon.getName());
 //        holder.pokemonImage;
     }

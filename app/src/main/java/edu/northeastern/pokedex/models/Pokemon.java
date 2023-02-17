@@ -6,44 +6,34 @@ import java.net.URL;
 import java.util.List;
 
 public class Pokemon {
+    private final String name;
+    private final String url;
+    private final Integer id;
+
+    public Pokemon(String name, String url, Integer id) {
+        this.name = name;
+        this.url = url;
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public Integer getID() {
+    public String getUrl() {
+        return url;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public List<String> getTypes() {
-        return types;
-    }
-
-    public Integer getMoveCount() {
-        return moveCount;
-    }
-
-    public URL getSound() {
-        return sound;
-    }
-
-    private final String name;
-    private final Image image;
-    private final List<String> types;
-    private final Integer moveCount;
-    private final URL sound;
-    private final Integer id;
-
-    public Pokemon(Integer id, String name, Image image, List<String> types, Integer moveCount, URL sound) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.types = types;
-        this.moveCount = moveCount;
-        this.sound = sound;
+    @Override
+    public String toString() {
+        return "Pokemon{" +
+                "name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

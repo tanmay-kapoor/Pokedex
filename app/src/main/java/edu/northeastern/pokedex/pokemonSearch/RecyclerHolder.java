@@ -21,7 +21,6 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
         pokemonName = itemView.findViewById(R.id.pokemonNameTV);
         pokemonImage = itemView.findViewById(R.id.pokemonImageIV);
         pokemonItem = itemView.findViewById(R.id.pokemonItemCV);
-
         pokemonItem.setOnClickListener(view -> {
 
         });
