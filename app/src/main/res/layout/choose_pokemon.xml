@@ -7,8 +7,8 @@
 
     <SearchView
         android:id="@+id/pokemonSV"
-        android:layout_width="409dp"
-        android:layout_height="93dp"
+        android:layout_width="412dp"
+        android:layout_height="56dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,8 +20,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokemonsRV"
-        android:layout_width="410dp"
-        android:layout_height="536dp"
+        android:layout_width="412dp"
+        android:layout_height="452dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
@@ -50,12 +50,14 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="5dp"
-        android:text="Next"
         android:onClick="getNextPage"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/prevBtn"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV"
+        app:layout_constraintVertical_bias="0.018" />
 
     <Button
         android:id="@+id/prevBtn"
@@ -64,12 +66,14 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="5dp"
-        android:text="Prev"
         android:onClick="getPreviousPage"
+        android:text="Prev"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nextBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV" />
+        app:layout_constraintTop_toBottomOf="@+id/pokemonsRV"
+        app:layout_constraintVertical_bias="0.018" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
