@@ -94,33 +94,30 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     }
 
     private class PokemonList implements Runnable {
-        String link = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20";
+        String pokeListLink = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20";
 
         @Override
         public void run() {
             try {
-                URL url = new URL(link);
-                String res = NetworkUtil.httpResponse(url);
-                JSONObject pokemonData = new JSONObject(res);
-                JSONArray pokemons = pokemonData.getJSONArray("results");
-                String pokemonURL;
-                for (int i = 0; i < pokemons.length(); i++) {
-                    pokemonURL = String.valueOf(pokemons.getJSONObject(i).get("url"));
-                    String pokemonResult = NetworkUtil.httpResponse(new URL(pokemonURL));
-                    JSONObject pokemon = new JSONObject(pokemonResult);
-                    ////// Get image bitmap
+                String pokeListResult = NetworkUtil.httpResponse(new URL(pokeListLink));
+                JSONObject pokeListJSON = new JSONObject(pokeListResult);
+                JSONArray pokemonOverview = pokeListJSON.getJSONArray("results");
+                for (int i = 0; i < pokemonOverview.length(); i++) {
+                    String pokemonDataResult = NetworkUtil.httpResponse(new URL(String.valueOf(pokemonOverview.getJSONObject(i).get("url"))));
+                    JSONObject pokemonDataJSON = new JSONObject(pokemonDataResult);
 
-                    URL urlConnection = new URL(String.valueOf(pokemon.getJSONObject("sprites").get("front_default")));
+                    URL urlConnection = new URL(String.valueOf(pokemonDataJSON.getJSONObject("sprites").get("front_default")));
                     HttpURLConnection connection = (HttpURLConnection) urlConnection
                             .openConnection();
                     connection.setDoInput(true);
                     connection.connect();
                     InputStream input = connection.getInputStream();
                     Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
                     pokemonList.add(new Pokemon(
-                            String.valueOf(pokemons.getJSONObject(i).get("name")),
-                            String.valueOf(pokemons.getJSONObject(i).get("url")),
-                            i,
+                            String.valueOf(pokemonOverview.getJSONObject(i).get("name")),
+                            String.valueOf(pokemonOverview.getJSONObject(i).get("url")),
+                            Integer.valueOf(String.valueOf(pokemonDataJSON.get("id"))),
                             myBitmap
                     ));
                     recyclerView.getAdapter().notifyItemInserted(pokemonList.size() - 1);

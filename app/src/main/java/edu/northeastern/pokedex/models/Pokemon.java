@@ -1,10 +1,6 @@
 package edu.northeastern.pokedex.models;
 
 import android.graphics.Bitmap;
-import android.media.Image;
-
-import java.net.URL;
-import java.util.List;
 
 public class Pokemon {
     private final String name;
