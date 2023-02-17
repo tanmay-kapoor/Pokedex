@@ -41,11 +41,11 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="@id/pokeIDSearch"
-        app:layout_constraintRight_toRightOf="@id/pokeIDSearch"
-        app:layout_constraintTop_toBottomOf="@+id/pokeIDSearch"></ProgressBar>
+        android:layout_marginTop="180dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemonsRV"
+        app:layout_constraintEnd_toEndOf="@+id/pokemonsRV"
+        app:layout_constraintStart_toStartOf="@+id/pokemonsRV"
+        app:layout_constraintTop_toTopOf="@+id/pokemonsRV"></ProgressBar>
 
     <Button
         android:id="@+id/nextBtn"
@@ -54,8 +54,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="5dp"
-        android:text="Next"
         android:onClick="getNextPage"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/prevBtn"
@@ -68,8 +69,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="5dp"
-        android:text="Prev"
         android:onClick="getPreviousPage"
+        android:text="Prev"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nextBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="spread"
