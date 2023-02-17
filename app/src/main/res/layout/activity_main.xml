@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
+        android:gravity="center"
         android:text="Team 47"
         android:textSize="34sp"
         android:textStyle="bold"
