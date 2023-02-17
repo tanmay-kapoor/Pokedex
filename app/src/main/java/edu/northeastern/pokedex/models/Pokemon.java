@@ -11,6 +11,10 @@ public class Pokemon {
         return name;
     }
 
+    public Integer getID() {
+        return id;
+    }
+
     public Image getImage() {
         return image;
     }
@@ -32,8 +36,10 @@ public class Pokemon {
     private final List<String> types;
     private final Integer moveCount;
     private final URL sound;
+    private final Integer id;
 
-    public Pokemon(String name, Image image, List<String> types, Integer moveCount, URL sound) {
+    public Pokemon(Integer id, String name, Image image, List<String> types, Integer moveCount, URL sound) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.types = types;
