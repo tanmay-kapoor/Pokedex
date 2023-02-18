@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 import edu.northeastern.pokedex.R;
 import edu.northeastern.pokedex.models.Pokemon;
@@ -35,7 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         Pokemon pokemon = pokemonList.get(position);
-        holder.pokemonName.setText(pokemon.getName());
+        holder.pokemonName.setText(pokemon.getName().toUpperCase(Locale.ROOT));
         holder.pokemonImage.setImageBitmap(pokemon.getImageBitmap());
         holder.pokeID = pokemon.getId();
     }
