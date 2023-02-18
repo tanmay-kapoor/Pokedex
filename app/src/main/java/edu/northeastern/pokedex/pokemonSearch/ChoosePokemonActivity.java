@@ -43,6 +43,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     private String nextPokeListLink;
     private ProgressBar progressBar;
     private EditText searchEditText;
+    private boolean shouldReset = true;
 
     @Override
 
@@ -57,6 +58,19 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         searchEditText = findViewById(R.id.pokeIDSearch);
         init(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("size", pokemonList.size());
+        outState.putBoolean("shouldReset", false);
+        outState.putString("currPokeListLink", currPokeListLink);
+        outState.putString("prevPokeListLink", prevPokeListLink);
+        outState.putString("nextPokeListLink", nextPokeListLink);
+        for(int i = 0; i<pokemonList.size(); i++) {
+            outState.putParcelable("pokemon_"+i, pokemonList.get(i));
+        }
+        super.onSaveInstanceState(outState);
     }
 
     public void getNextPage(View view) {
@@ -85,19 +99,35 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
 
     private void init(Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            int size = savedInstanceState.getInt("size");
+            shouldReset = savedInstanceState.getBoolean("shouldReset");
+            currPokeListLink = savedInstanceState.getString("currPokeListLink");
+            prevPokeListLink = savedInstanceState.getString("prevPokeListLink");
+            nextPokeListLink = savedInstanceState.getString("nextPokeListLink");
+            for(int i = 0; i<size; i++) {
+                Pokemon pokemon = savedInstanceState.getParcelable("pokemon_"+i);
+                pokemonList.add(pokemon);
+            }
+        }
         recycleRecyclerView();
     }
 
     private void recycleRecyclerView() {
         //Delete all items from the recyclerview
-        if(pokemonList.size() > 0) {
-            pokemonList.removeIf(pokemon -> true == true);
-            recyclerView.getAdapter().notifyDataSetChanged();
+        if(shouldReset) {
+            if(pokemonList.size() > 0) {
+                pokemonList.clear();
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+            progressBar.setVisibility(View.VISIBLE);
+            //Get new data
+            Thread getPokemonList = new Thread(new PokemonList(currPokeListLink));
+            getPokemonList.start();
+        } else {
+            shouldReset = true;
+            progressBar.setVisibility(View.INVISIBLE);
         }
-        progressBar.setVisibility(View.VISIBLE);
-        //Get new data
-        Thread getPokemonList = new Thread(new PokemonList(currPokeListLink));
-        getPokemonList.start();
         //Create recycler with new data
         createRecyclerView();
     }
