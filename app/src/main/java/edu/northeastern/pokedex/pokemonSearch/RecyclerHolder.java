@@ -39,7 +39,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
             public void onClick(View view) {
                 context = itemView.getContext();
                 intent = new Intent(context, PokemonDetailsActivity.class);
-                intent.putExtra("pokemonId", pokeID);
+                intent.putExtra("pokeID", pokeID);
                 context.startActivity(intent);
             }
         });

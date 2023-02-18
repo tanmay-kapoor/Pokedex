@@ -92,9 +92,14 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     }
 
     public void searchPokeID(View view) {
-        Intent intent = new Intent(getApplicationContext(), PokemonDetailsActivity.class);
-        intent.putExtra("pokemonId", Integer.parseInt(searchEditText.getText().toString()));
-        startActivity(intent);
+        String id = searchEditText.getText().toString();
+        if(!id.equals("")) {
+            Intent intent = new Intent(getApplicationContext(), PokemonDetailsActivity.class);
+            intent.putExtra("pokeID", Integer.parseInt(id));
+            startActivity(intent);
+        } else {
+            Toast.makeText(ChoosePokemonActivity.this, "Please enter a pokeID to search!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
