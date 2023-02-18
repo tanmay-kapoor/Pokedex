@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,6 +61,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
     public void getNextPage(View view) {
         if(nextPokeListLink == null) {
+            Toast.makeText(ChoosePokemonActivity.this, "You are on the last page!", Toast.LENGTH_SHORT).show();
             return;
         }
         currPokeListLink = nextPokeListLink;
@@ -68,6 +70,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
     public void getPreviousPage(View view) {
         if(prevPokeListLink == null) {
+            Toast.makeText(ChoosePokemonActivity.this, "You are on the first page!", Toast.LENGTH_SHORT).show();
             return;
         }
         currPokeListLink = prevPokeListLink;
