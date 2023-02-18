@@ -16,7 +16,7 @@
         android:ems="10"
         android:hint="Enter a PokeID"
         android:focusedByDefault="false"
-        android:inputType="numberSigned"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/pokemonsRV"
         app:layout_constraintEnd_toEndOf="@+id/pokemonsRV"
         app:layout_constraintStart_toStartOf="@+id/pokemonsRV"
-        app:layout_constraintTop_toTopOf="@+id/pokemonsRV"></ProgressBar>
+        app:layout_constraintTop_toTopOf="@+id/pokemonsRV" />
 
     <Button
         android:id="@+id/nextBtn"
