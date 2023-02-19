@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import edu.northeastern.pokedex.models.Pokemon;
 import edu.northeastern.pokedex.utils.NetworkUtil;
 public class PokemonDetailsActivity extends AppCompatActivity {
 
@@ -40,7 +38,13 @@ public class PokemonDetailsActivity extends AppCompatActivity {
 
     private List<String> pokemonType;
     private List<String> pokemonGames;
-    private Bitmap imageBitmap;
+    private Bitmap imageFrontBitmap;
+
+    private Bitmap imageBackBitmap;
+
+    private int pokemonID;
+
+    private boolean frontVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +73,20 @@ public class PokemonDetailsActivity extends AppCompatActivity {
             pokemonType = savedInstanceState.getStringArrayList("typeList");
             pokemonTypeList.setText(String.join(", ", pokemonType));
 
-            imageBitmap = savedInstanceState.getParcelable("imageBitmap");
-            pokemonImageView.setImageBitmap(imageBitmap);
+            pokemonGames = savedInstanceState.getStringArrayList("gameList");
+            pokemonGameList.setText(String.join(", ", pokemonGames));
+            pokemonImageView.setImageBitmap(imageFrontBitmap);
+            pokemonHeight.setText((CharSequence) savedInstanceState.get("height"));
+            pokemonWeight.setText((CharSequence) savedInstanceState.get("weight"));
+
+            imageFrontBitmap = savedInstanceState.getParcelable("imageFrontBitmap");
+            imageBackBitmap = savedInstanceState.getParcelable("imageBackBitmap");
+            pokemonImageView.setImageBitmap(imageFrontBitmap);
         } else {
             Bundle extras = getIntent().getExtras();
-            int id = extras.getInt("pokeID");
+            pokemonID = extras.getInt("pokeID");
             progressBar.setVisibility(View.VISIBLE);
-            Thread pokemonDetails = new Thread(new PokemonDetails(id));
+            Thread pokemonDetails = new Thread(new PokemonDetails(pokemonID));
             pokemonDetails.start();
         }
     }
@@ -85,8 +96,22 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         outState.putString("pokemonName", pokemonNameText.getText().toString());
         outState.putString("moveCount", moveCountValue.getText().toString());
         outState.putStringArrayList("typeList", (ArrayList<String>) pokemonType);
-        outState.putParcelable("imageBitmap", imageBitmap);
+        outState.putParcelable("imageFrontBitmap", imageFrontBitmap);
+        outState.putParcelable("imageBackBitmap", imageFrontBitmap);
+        outState.putString("weight", pokemonHeight.getText().toString());
+        outState.putString("height", pokemonWeight.getText().toString());
         super.onSaveInstanceState(outState);
+    }
+
+    public void flipImage(View view) {
+        if(frontVisible) {
+            pokemonImageView.setImageBitmap(imageBackBitmap);
+            frontVisible = !frontVisible;
+        }
+        else {
+            pokemonImageView.setImageBitmap(imageFrontBitmap);
+            frontVisible = !frontVisible;
+        }
     }
 
     private class PokemonDetails implements Runnable {
@@ -131,7 +156,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 String ch = name.charAt(0)+"";
                 final String pokemonName = name.replace(ch, ch.toUpperCase(Locale.ROOT));
 
-                // get image bitmap
+                // get front image bitmap
                 String imageLink = data.getJSONObject("sprites").getString("front_default");
                 URL urlConnection = new URL(imageLink);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection
@@ -139,7 +164,18 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-                imageBitmap = BitmapFactory.decodeStream(input);
+                imageFrontBitmap = BitmapFactory.decodeStream(input);
+                frontVisible = true;
+
+                // get back image bitmap
+                imageLink = data.getJSONObject("sprites").getString("back_default");
+                urlConnection = new URL(imageLink);
+                connection = (HttpURLConnection) urlConnection.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                input = connection.getInputStream();
+                imageBackBitmap = BitmapFactory.decodeStream(input);
+
                 progressBar.setVisibility(View.INVISIBLE);
 
                 String weight = (String.valueOf(data.get("weight")));
@@ -151,7 +187,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                     moveCountValue.setText(Integer.toString(moveCount));
                     pokemonTypeList.setText(String.join(", ", pokemonType));
                     pokemonGameList.setText(String.join(", ", pokemonGames));
-                    pokemonImageView.setImageBitmap(imageBitmap);
+                    pokemonImageView.setImageBitmap(imageFrontBitmap);
                     pokemonHeight.setText(height);
                     pokemonWeight.setText(weight);
                 });

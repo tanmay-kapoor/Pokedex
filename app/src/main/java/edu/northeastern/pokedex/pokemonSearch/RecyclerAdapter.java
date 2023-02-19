@@ -1,5 +1,6 @@
 package edu.northeastern.pokedex.pokemonSearch;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         Pokemon pokemon = pokemonList.get(position);
         holder.pokemonName.setText(pokemon.getName().toUpperCase(Locale.ROOT));
         holder.pokemonImage.setImageBitmap(pokemon.getImageBitmap());
+        holder.pokemonID.setText(String.valueOf(pokemon.getId()));
         holder.pokeID = pokemon.getId();
     }
 

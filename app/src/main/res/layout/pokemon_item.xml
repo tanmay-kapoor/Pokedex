@@ -9,12 +9,18 @@
     app:cardCornerRadius="5dp">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
+        <TextView
+            android:id="@+id/pokeID"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ID" />
+
+        <ImageView
         android:id="@+id/pokemonImageIV"
         android:layout_width="138dp"
         android:layout_height="120dp"
@@ -28,5 +34,6 @@
             android:layout_marginLeft="15dp"
             android:text="PIKACHU"
             android:textSize="20dp" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

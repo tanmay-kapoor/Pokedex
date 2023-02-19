@@ -23,6 +23,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
     private Intent intent;
     ImageView pokemonImage;
     TextView pokemonName;
+    TextView pokemonID;
     private CardView pokemonItem;
     int pokeID;
 
@@ -31,6 +32,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
 
 
         pokemonName = itemView.findViewById(R.id.pokemonNameTV);
+        pokemonID = itemView.findViewById(R.id.pokeID);
         pokemonImage = itemView.findViewById(R.id.pokemonImageIV);
         pokemonItem = itemView.findViewById(R.id.pokemonItemCV);
 

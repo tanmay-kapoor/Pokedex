@@ -34,14 +34,17 @@
 
     <Button
         android:id="@+id/PlaySound"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="84dp"
-        app:icon="@android:drawable/ic_media_play"
+        android:layout_marginEnd="69dp"
+        android:onClick="flipImage"
+        android:drawableLeft="@android:drawable/ic_popup_sync"
+        android:text="Flip Image"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Cry" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/MoveCount"
