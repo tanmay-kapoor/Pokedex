@@ -61,7 +61,6 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.clear();
         outState.putInt("size", pokemonList.size());
         outState.putBoolean("shouldReset", false);
         outState.putString("currPokeListLink", currPokeListLink);
