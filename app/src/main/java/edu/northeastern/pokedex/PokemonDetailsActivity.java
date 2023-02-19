@@ -33,9 +33,13 @@ public class PokemonDetailsActivity extends AppCompatActivity {
     private TextView pokemonNameText;
     private TextView moveCountValue;
     private TextView pokemonTypeList;
+    private TextView pokemonGameList;
+    private TextView pokemonWeight;
+    private TextView pokemonHeight;
     private ImageView pokemonImageView;
 
     private List<String> pokemonType;
+    private List<String> pokemonGames;
     private Bitmap imageBitmap;
 
     @Override
@@ -50,6 +54,9 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         pokemonNameText = findViewById(R.id.PokemonName);
         moveCountValue = findViewById(R.id.MoveCountValue);
         pokemonTypeList = findViewById(R.id.TypeValues);
+        pokemonGameList = findViewById(R.id.gameIndicesValues);
+        pokemonHeight = findViewById(R.id.heightValue);
+        pokemonWeight = findViewById(R.id.weightValue);
         pokemonImageView = findViewById(R.id.ImageView);
         progressBar = findViewById(R.id.progressBar);
 
@@ -99,13 +106,24 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 // get move count
                 int moveCount = data.getJSONArray("moves").length();
 
+
+
                 // get list of pokemon types
                 pokemonType = new ArrayList<>();
                 JSONArray types = data.getJSONArray("types");
                 for(int i = 0; i<types.length(); i++) {
                     String name = types.getJSONObject(i).getJSONObject("type").getString("name");
                     String ch = name.charAt(0)+"";
-                    pokemonType.add(name.replace(ch, ch.toUpperCase(Locale.ROOT)));
+                    pokemonType.add(name.replaceFirst(ch, ch.toUpperCase(Locale.ROOT)));
+                }
+
+                // get list of pokemon game occurences
+                pokemonGames = new ArrayList<>();
+                JSONArray games = data.getJSONArray("game_indices");
+                for(int i = 0; i<games.length(); i++) {
+                    String name = games.getJSONObject(i).getJSONObject("version").getString("name");
+                    String ch = name.charAt(0)+"";
+                    pokemonGames.add("Pokemon " + name.replaceFirst(ch, ch.toUpperCase(Locale.ROOT)));
                 }
 
                 // get pokemon name
@@ -124,12 +142,18 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 imageBitmap = BitmapFactory.decodeStream(input);
                 progressBar.setVisibility(View.INVISIBLE);
 
+                String weight = (String.valueOf(data.get("weight")));
+                String height = (String.valueOf(data.get("height")));
+
                 // update on UI thread
                 handler.post(() -> {
                     pokemonNameText.setText(pokemonName);
                     moveCountValue.setText(Integer.toString(moveCount));
                     pokemonTypeList.setText(String.join(", ", pokemonType));
+                    pokemonGameList.setText(String.join(", ", pokemonGames));
                     pokemonImageView.setImageBitmap(imageBitmap);
+                    pokemonHeight.setText(height);
+                    pokemonWeight.setText(weight);
                 });
 
             } catch (IOException | JSONException e) {
