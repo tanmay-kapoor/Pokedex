@@ -96,8 +96,9 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         outState.putString("pokemonName", pokemonNameText.getText().toString());
         outState.putString("moveCount", moveCountValue.getText().toString());
         outState.putStringArrayList("typeList", (ArrayList<String>) pokemonType);
+        outState.putStringArrayList("gameList", (ArrayList<String>) pokemonGames);
         outState.putParcelable("imageFrontBitmap", imageFrontBitmap);
-        outState.putParcelable("imageBackBitmap", imageFrontBitmap);
+        outState.putParcelable("imageBackBitmap", imageBackBitmap);
         outState.putString("weight", pokemonHeight.getText().toString());
         outState.putString("height", pokemonWeight.getText().toString());
         super.onSaveInstanceState(outState);
