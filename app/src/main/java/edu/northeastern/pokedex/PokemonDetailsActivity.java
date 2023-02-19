@@ -32,20 +32,47 @@ public class PokemonDetailsActivity extends AppCompatActivity {
     private TextView pokemonTypeList;
     private ImageView pokemonImageView;
 
+    private List<String> pokemonType;
+    private Bitmap imageBitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_details);
 
+        init(savedInstanceState);
+    }
+
+    private void init(Bundle savedInstanceState) {
         pokemonNameText = findViewById(R.id.PokemonName);
         moveCountValue = findViewById(R.id.MoveCountValue);
         pokemonTypeList = findViewById(R.id.TypeValues);
         pokemonImageView = findViewById(R.id.ImageView);
 
-        Bundle extras = getIntent().getExtras();
-        int id = extras.getInt("pokeID");
-        Thread pokemonDetails = new Thread(new PokemonDetails(id));
-        pokemonDetails.start();
+        if(savedInstanceState != null) {
+            pokemonNameText.setText(savedInstanceState.getString("pokemonName"));
+            moveCountValue.setText(savedInstanceState.getString("moveCount"));
+
+            pokemonType = savedInstanceState.getStringArrayList("typeList");
+            pokemonTypeList.setText(String.join(", ", pokemonType));
+
+            imageBitmap = savedInstanceState.getParcelable("imageBitmap");
+            pokemonImageView.setImageBitmap(imageBitmap);
+        } else {
+            Bundle extras = getIntent().getExtras();
+            int id = extras.getInt("pokeID");
+            Thread pokemonDetails = new Thread(new PokemonDetails(id));
+            pokemonDetails.start();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("pokemonName", pokemonNameText.getText().toString());
+        outState.putString("moveCount", moveCountValue.getText().toString());
+        outState.putStringArrayList("typeList", (ArrayList<String>) pokemonType);
+        outState.putParcelable("imageBitmap", imageBitmap);
+        super.onSaveInstanceState(outState);
     }
 
     private class PokemonDetails implements Runnable {
@@ -66,7 +93,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 int moveCount = data.getJSONArray("moves").length();
 
                 // get list of pokemon types
-                List<String> pokemonType = new ArrayList<>();
+                pokemonType = new ArrayList<>();
                 JSONArray types = data.getJSONArray("types");
                 for(int i = 0; i<types.length(); i++) {
                     String name = types.getJSONObject(i).getJSONObject("type").getString("name");
@@ -87,7 +114,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-                Bitmap imageBitmap = BitmapFactory.decodeStream(input);
+                imageBitmap = BitmapFactory.decodeStream(input);
 
                 // update on UI thread
                 handler.post(() -> {
