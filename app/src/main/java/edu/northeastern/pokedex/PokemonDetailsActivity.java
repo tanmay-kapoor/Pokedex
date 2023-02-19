@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -22,10 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import edu.northeastern.pokedex.models.Pokemon;
 import edu.northeastern.pokedex.utils.NetworkUtil;
 public class PokemonDetailsActivity extends AppCompatActivity {
 
+    private ProgressBar progressBar;
     private final Handler handler = new Handler();
     private TextView pokemonNameText;
     private TextView moveCountValue;
@@ -36,16 +38,17 @@ public class PokemonDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_details);
-
         pokemonNameText = findViewById(R.id.PokemonName);
         moveCountValue = findViewById(R.id.MoveCountValue);
         pokemonTypeList = findViewById(R.id.TypeValues);
         pokemonImageView = findViewById(R.id.ImageView);
-
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         Bundle extras = getIntent().getExtras();
         int id = extras.getInt("pokeID");
         Thread pokemonDetails = new Thread(new PokemonDetails(id));
         pokemonDetails.start();
+
     }
 
     private class PokemonDetails implements Runnable {
@@ -88,7 +91,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap imageBitmap = BitmapFactory.decodeStream(input);
-
+                progressBar.setVisibility(View.INVISIBLE);
                 // update on UI thread
                 handler.post(() -> {
                     pokemonNameText.setText(pokemonName);
