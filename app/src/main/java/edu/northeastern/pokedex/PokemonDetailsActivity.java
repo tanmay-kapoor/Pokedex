@@ -51,6 +51,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         moveCountValue = findViewById(R.id.MoveCountValue);
         pokemonTypeList = findViewById(R.id.TypeValues);
         pokemonImageView = findViewById(R.id.ImageView);
+        progressBar = findViewById(R.id.progressBar);
 
         if(savedInstanceState != null) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -66,7 +67,6 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         } else {
             Bundle extras = getIntent().getExtras();
             int id = extras.getInt("pokeID");
-            progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
             Thread pokemonDetails = new Thread(new PokemonDetails(id));
             pokemonDetails.start();
