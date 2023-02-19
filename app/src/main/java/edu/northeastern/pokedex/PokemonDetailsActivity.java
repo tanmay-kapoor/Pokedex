@@ -18,7 +18,6 @@ import java.net.URL;
 
 import edu.northeastern.pokedex.models.Pokemon;
 import edu.northeastern.pokedex.utils.NetworkUtil;
-
 public class PokemonDetailsActivity extends AppCompatActivity {
 
     @Override
