@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,6 +61,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.clear();
         outState.putInt("size", pokemonList.size());
         outState.putBoolean("shouldReset", false);
         outState.putString("currPokeListLink", currPokeListLink);
