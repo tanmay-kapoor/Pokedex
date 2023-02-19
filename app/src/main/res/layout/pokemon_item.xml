@@ -8,18 +8,25 @@
     android:layout_margin="2dp"
     app:cardCornerRadius="5dp">
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/pokemonImageIV"
         android:layout_width="138dp"
         android:layout_height="120dp"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/pokemonNameTV"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="75dp"
-        android:text="PIKACHU"
-        android:textSize="20dp" />
+        <TextView
+            android:id="@+id/pokemonNameTV"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:text="PIKACHU"
+            android:textSize="20dp" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
