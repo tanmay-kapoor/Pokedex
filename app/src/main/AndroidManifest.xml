@@ -25,8 +25,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".pokemonSearch.ChoosePokemonActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".pokemonSearch.ChoosePokemonActivity" />
         <activity android:name=".PokemonDetailsActivity"/>
 
     </application>
