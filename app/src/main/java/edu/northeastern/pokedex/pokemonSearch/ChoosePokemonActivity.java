@@ -68,14 +68,14 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         outState.putString("currPokeListLink", currPokeListLink);
         outState.putString("prevPokeListLink", prevPokeListLink);
         outState.putString("nextPokeListLink", nextPokeListLink);
-        for(int i = 0; i<pokemonList.size(); i++) {
-            outState.putParcelable("pokemon_"+i, pokemonList.get(i));
+        for (int i = 0; i < pokemonList.size(); i++) {
+            outState.putParcelable("pokemon_" + i, pokemonList.get(i));
         }
         super.onSaveInstanceState(outState);
     }
 
     public void getNextPage(View view) {
-        if(nextPokeListLink == null) {
+        if (nextPokeListLink == null) {
             Toast.makeText(ChoosePokemonActivity.this, "You are on the last page!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -84,7 +84,7 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     }
 
     public void getPreviousPage(View view) {
-        if(prevPokeListLink == null) {
+        if (prevPokeListLink == null) {
             Toast.makeText(ChoosePokemonActivity.this, "You are on the first page!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -93,11 +93,16 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     }
 
     public void searchPokeID(View view) {
-        String id = searchEditText.getText().toString();
-        if(!id.equals("")) {
-            Intent intent = new Intent(getApplicationContext(), PokemonDetailsActivity.class);
-            intent.putExtra("pokeID", Integer.parseInt(id));
-            startActivity(intent);
+        String idVal = searchEditText.getText().toString();
+        if (!idVal.equals("")) {
+            int id = Integer.parseInt(idVal);
+            if (id < 1 || id > 1008) {
+                Toast.makeText(ChoosePokemonActivity.this, "This pokemon doesn't exist!", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), PokemonDetailsActivity.class);
+                intent.putExtra("pokeID", id);
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(ChoosePokemonActivity.this, "Please enter a pokeID to search!", Toast.LENGTH_SHORT).show();
         }
@@ -105,14 +110,14 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
 
     private void init(Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             int size = savedInstanceState.getInt("size");
             shouldReset = savedInstanceState.getBoolean("shouldReset");
             currPokeListLink = savedInstanceState.getString("currPokeListLink");
             prevPokeListLink = savedInstanceState.getString("prevPokeListLink");
             nextPokeListLink = savedInstanceState.getString("nextPokeListLink");
-            for(int i = 0; i<size; i++) {
-                Pokemon pokemon = savedInstanceState.getParcelable("pokemon_"+i);
+            for (int i = 0; i < size; i++) {
+                Pokemon pokemon = savedInstanceState.getParcelable("pokemon_" + i);
                 pokemonList.add(pokemon);
             }
         }
@@ -121,8 +126,8 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
     private void recycleRecyclerView() {
         //Delete all items from the recyclerview
-        if(shouldReset) {
-            if(pokemonList.size() > 0) {
+        if (shouldReset) {
+            if (pokemonList.size() > 0) {
                 pokemonList.clear();
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
@@ -161,16 +166,14 @@ public class ChoosePokemonActivity extends AppCompatActivity {
             try {
                 String pokeListResult = NetworkUtil.httpResponse(new URL(pokeListLink));
                 JSONObject pokeListJSON = new JSONObject(pokeListResult);
-                if(!String.valueOf(pokeListJSON.get("next")).equals("null")) {
+                if (!String.valueOf(pokeListJSON.get("next")).equals("null")) {
                     nextPokeListLink = String.valueOf(pokeListJSON.get("next"));
-                }
-                else{
+                } else {
                     nextPokeListLink = null;
                 }
-                if(!String.valueOf(pokeListJSON.get("previous")).equals("null")) {
+                if (!String.valueOf(pokeListJSON.get("previous")).equals("null")) {
                     prevPokeListLink = String.valueOf(pokeListJSON.get("previous"));
-                }
-                else {
+                } else {
                     prevPokeListLink = null;
                 }
                 JSONArray pokemonOverview = pokeListJSON.getJSONArray("results");
