@@ -75,13 +75,14 @@ public class PokemonDetailsActivity extends AppCompatActivity {
 
             pokemonGames = savedInstanceState.getStringArrayList("gameList");
             pokemonGameList.setText(String.join(", ", pokemonGames));
-            pokemonImageView.setImageBitmap(imageFrontBitmap);
+
             pokemonHeight.setText((CharSequence) savedInstanceState.get("height"));
             pokemonWeight.setText((CharSequence) savedInstanceState.get("weight"));
 
+            frontVisible = savedInstanceState.getBoolean("frontVisible");
             imageFrontBitmap = savedInstanceState.getParcelable("imageFrontBitmap");
             imageBackBitmap = savedInstanceState.getParcelable("imageBackBitmap");
-            pokemonImageView.setImageBitmap(imageFrontBitmap);
+            pokemonImageView.setImageBitmap(frontVisible ? imageFrontBitmap : imageBackBitmap);
         } else {
             Bundle extras = getIntent().getExtras();
             pokemonID = extras.getInt("pokeID");
@@ -101,6 +102,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         outState.putParcelable("imageBackBitmap", imageBackBitmap);
         outState.putString("weight", pokemonHeight.getText().toString());
         outState.putString("height", pokemonWeight.getText().toString());
+        outState.putBoolean("frontVisible", frontVisible);
         super.onSaveInstanceState(outState);
     }
 
