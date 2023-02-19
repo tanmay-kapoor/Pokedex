@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -26,6 +28,7 @@ import edu.northeastern.pokedex.models.Pokemon;
 import edu.northeastern.pokedex.utils.NetworkUtil;
 public class PokemonDetailsActivity extends AppCompatActivity {
 
+    private ProgressBar progressBar;
     private final Handler handler = new Handler();
     private TextView pokemonNameText;
     private TextView moveCountValue;
@@ -50,6 +53,8 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         pokemonImageView = findViewById(R.id.ImageView);
 
         if(savedInstanceState != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+            
             pokemonNameText.setText(savedInstanceState.getString("pokemonName"));
             moveCountValue.setText(savedInstanceState.getString("moveCount"));
 
@@ -61,6 +66,8 @@ public class PokemonDetailsActivity extends AppCompatActivity {
         } else {
             Bundle extras = getIntent().getExtras();
             int id = extras.getInt("pokeID");
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
             Thread pokemonDetails = new Thread(new PokemonDetails(id));
             pokemonDetails.start();
         }
@@ -115,6 +122,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 imageBitmap = BitmapFactory.decodeStream(input);
+                progressBar.setVisibility(View.INVISIBLE);
 
                 // update on UI thread
                 handler.post(() -> {
