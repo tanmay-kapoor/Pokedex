@@ -74,7 +74,7 @@ public class PokemonDetailsActivity extends AppCompatActivity {
             pokemonTypeList.setText(String.join(", ", pokemonType));
 
             pokemonGames = savedInstanceState.getStringArrayList("gameList");
-            pokemonGameList.setText(String.join(", ", pokemonGames));
+            pokemonGameList.setText(String.join(",\n", pokemonGames));
 
             pokemonHeight.setText((CharSequence) savedInstanceState.get("height"));
             pokemonWeight.setText((CharSequence) savedInstanceState.get("weight"));
