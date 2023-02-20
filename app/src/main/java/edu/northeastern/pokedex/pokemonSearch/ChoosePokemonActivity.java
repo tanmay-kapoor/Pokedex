@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import java.util.List;
 import edu.northeastern.pokedex.PokemonDetailsActivity;
 import edu.northeastern.pokedex.R;
 import edu.northeastern.pokedex.models.Pokemon;
+import edu.northeastern.pokedex.models.TempPokemon;
 import edu.northeastern.pokedex.utils.NetworkUtil;
 
 public class ChoosePokemonActivity extends AppCompatActivity {
@@ -62,14 +64,14 @@ public class ChoosePokemonActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.clear();
         outState.putInt("size", pokemonList.size());
         outState.putBoolean("shouldReset", false);
         outState.putString("currPokeListLink", currPokeListLink);
         outState.putString("prevPokeListLink", prevPokeListLink);
         outState.putString("nextPokeListLink", nextPokeListLink);
         for (int i = 0; i < pokemonList.size(); i++) {
-            outState.putParcelable("pokemon_" + i, pokemonList.get(i));
+            TempPokemon pok = new TempPokemon(pokemonList.get(i));
+            outState.putParcelable("pokemon_" + i, pok);
         }
         super.onSaveInstanceState(outState);
     }
@@ -117,7 +119,11 @@ public class ChoosePokemonActivity extends AppCompatActivity {
             prevPokeListLink = savedInstanceState.getString("prevPokeListLink");
             nextPokeListLink = savedInstanceState.getString("nextPokeListLink");
             for (int i = 0; i < size; i++) {
-                Pokemon pokemon = savedInstanceState.getParcelable("pokemon_" + i);
+                TempPokemon pok = savedInstanceState.getParcelable("pokemon_" + i);
+                String encodedString = pok.getBitmapStr();
+                byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                Pokemon pokemon = new Pokemon(pok.getName(), pok.getUrl(), pok.getId(), bitmap);
                 pokemonList.add(pokemon);
             }
         }
