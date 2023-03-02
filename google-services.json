@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "653245796379",
+    "firebase_url": "https://madcs5520-default-rtdb.firebaseio.com",
+    "project_id": "madcs5520",
+    "storage_bucket": "madcs5520.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653245796379:android:2c3190a3ae77a3ef27e8be",
+        "android_client_info": {
+          "package_name": "team47.pokedex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653245796379-m7d6ti0sdagjqf2ikc3fgtantneruajl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-o--j5aeXUBaTSyrfhFnYTZZjoSfG8wk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653245796379-m7d6ti0sdagjqf2ikc3fgtantneruajl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
