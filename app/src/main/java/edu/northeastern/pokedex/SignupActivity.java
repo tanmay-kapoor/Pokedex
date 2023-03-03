@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,6 +34,11 @@ public class SignupActivity extends AppCompatActivity {
 
         prefs = getDefaultSharedPreferences(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public void login(View view){
+        startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+        finish();
     }
 
     public void createAccount(View view) {
