@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "596252454613",
+    "project_id": "stickers-app-mad",
+    "storage_bucket": "stickers-app-mad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596252454613:android:03f2237a9d4b3433b5fc5c",
+        "android_client_info": {
+          "package_name": "edu.northeastern.pokedex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596252454613-djeu1bdrgj3vkvu02pkn0ujmsakk01hu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5WPq3cM2EeB9GTKEz8GSD2GJsFE_tNfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596252454613-djeu1bdrgj3vkvu02pkn0ujmsakk01hu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
