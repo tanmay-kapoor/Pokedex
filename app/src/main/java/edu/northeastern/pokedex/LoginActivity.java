@@ -42,27 +42,20 @@ public class LoginActivity extends AppCompatActivity {
     public void authenticate(View view) {
         EditText usernameText = findViewById(R.id.username);
         String username = usernameText.getText().toString();
-        final String[] name = {null};
 
-        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean usernameExists = false;
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-                    if (dsp.child("username").getValue().toString().equals(username)) {
-                        usernameExists = true;
-                        name[0] = dsp.child("name").getValue().toString();
-                        break;
-                    }
-                }
+                if(snapshot.exists()) {
+                    String name = snapshot.child("name").getValue().toString();
 
-                if (usernameExists) {
-                    SharedPreferences.Editor editor = prefs.edit();;
+                    SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("username", username);
-                    editor.putString("name", name[0]);
+                    editor.putString("name", name);
                     // expiration time 30 minutes;
                     editor.putLong("expiration", (System.currentTimeMillis() + 1800000)/1000);
                     editor.apply();
+
                     startActivity(new Intent(LoginActivity.this, FirebaseActivity.class));
                     finish();
                 } else {
@@ -75,5 +68,37 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+//        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                boolean usernameExists = false;
+//                for (DataSnapshot dsp : snapshot.getChildren()) {
+//                    if (dsp.child("username").getValue().toString().equals(username)) {
+//                        usernameExists = true;
+//                        name[0] = dsp.child("name").getValue().toString();
+//                        break;
+//                    }
+//                }
+//
+//                if (usernameExists) {
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.putString("username", username);
+//                    editor.putString("name", name[0]);
+//                    // expiration time 30 minutes;
+//                    editor.putLong("expiration", (System.currentTimeMillis() + 1800000)/1000);
+//                    editor.apply();
+//                    startActivity(new Intent(LoginActivity.this, FirebaseActivity.class));
+//                    finish();
+//                } else {
+//                    Toast.makeText(LoginActivity.this, "This account does not exist!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }

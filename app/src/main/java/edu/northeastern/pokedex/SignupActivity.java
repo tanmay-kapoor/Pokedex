@@ -1,10 +1,13 @@
 package edu.northeastern.pokedex;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -21,14 +24,15 @@ import edu.northeastern.pokedex.models.User;
 
 public class SignupActivity extends AppCompatActivity {
 
+    SharedPreferences prefs;
     private DatabaseReference mDatabase;
-    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        prefs = getDefaultSharedPreferences(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -39,27 +43,25 @@ public class SignupActivity extends AppCompatActivity {
         EditText nameText = findViewById(R.id.name);
         String newName = nameText.getText().toString();
 
-        DatabaseReference ref = mDatabase.child("users");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference userRef = mDatabase.child("users");
+        userRef.child(newUsername).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean isUniqueUsername = true;
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-                    String username = dsp.child("username").getValue().toString();
-                    if (username.equals(newUsername)) {
-                        isUniqueUsername = false;
-                        break;
-                    }
-                }
-                if (isUniqueUsername) {
-                    DatabaseReference newEntry = ref.push();
-                    newEntry.child("username").setValue(newUsername);
-                    newEntry.child("name").setValue(newName);
+                if(snapshot.exists()) {
+                    Toast.makeText(SignupActivity.this, newUsername + " username already exists!", Toast.LENGTH_SHORT).show();
+                } else {
+                    userRef.child(newUsername).child("name").setValue(newName);
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("username", newUsername);
+                    editor.putString("name", newName);
+                    // expiration time 30 minutes;
+                    editor.putLong("expiration", (System.currentTimeMillis() + 1800000)/1000);
+                    editor.apply();
+
                     Toast.makeText(SignupActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignupActivity.this, FirebaseActivity.class));
                     finish();
-                } else {
-                    Toast.makeText(SignupActivity.this, newUsername + " username already exists!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -68,6 +70,43 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
+
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                boolean isUniqueUsername = true;
+//                for (DataSnapshot dsp : snapshot.getChildren()) {
+//                    String username = dsp.child("username").getValue().toString();
+//                    if (username.equals(newUsername)) {
+//                        isUniqueUsername = false;
+//                        break;
+//                    }
+//                }
+//                if (isUniqueUsername) {
+//                    DatabaseReference newEntry = userRef.push();
+//                    newEntry.child("username").setValue(newUsername);
+//                    newEntry.child("name").setValue(newName);
+//
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.putString("username", newUsername);
+//                    editor.putString("name", newName);
+//                    // expiration time 30 minutes;
+//                    editor.putLong("expiration", (System.currentTimeMillis() + 1800000)/1000);
+//                    editor.apply();
+//
+//                    Toast.makeText(SignupActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(SignupActivity.this, FirebaseActivity.class));
+//                    finish();
+//                } else {
+//                    Toast.makeText(SignupActivity.this, newUsername + " username already exists!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         // check username already exists or not
         // add username to firebase and shared pref

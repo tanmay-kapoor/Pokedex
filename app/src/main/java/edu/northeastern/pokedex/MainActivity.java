@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void startFirebaseActivity(View view) {
         if(prefs.contains("username")) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.apply();
             if(prefs.getLong("expiration", 0) <= (System.currentTimeMillis()/1000)) {
                 clearSharedPrefs();
                 startLoginActivity();
