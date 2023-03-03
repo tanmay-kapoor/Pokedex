@@ -8,16 +8,16 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/supra/Desktop/MAD/keystore/keystoreMAD')
-            storePassword 'password'
-            keyAlias 'key0'
-            keyPassword 'password'
+            storeFile file('/Users/tanmaykapoor/Desktop/college/mad/keystore/pokedex_keystore')
+            storePassword 'Fruitninja!1'
+            keyAlias 'pokedex_key'
+            keyPassword 'Fruitninja!1'
         }
         release {
-            storeFile file('/Users/supra/Desktop/MAD/keystore/keystoreMAD')
-            storePassword 'password'
-            keyAlias 'key0'
-            keyPassword 'password'
+            storeFile file('/Users/tanmaykapoor/Desktop/college/mad/keystore/pokedex_keystore')
+            storePassword 'Fruitninja!1'
+            keyAlias 'pokedex_key'
+            keyPassword 'Fruitninja!1'
         }
     }
     namespace 'edu.northeastern.pokedex'
