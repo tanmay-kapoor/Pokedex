@@ -36,6 +36,11 @@ public class SignupActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
+    public void login(View view){
+        startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+        finish();
+    }
+
     public void createAccount(View view) {
         EditText usernameText = findViewById(R.id.username);
         String newUsername = usernameText.getText().toString();
