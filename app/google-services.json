@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:653245796379:android:2c3190a3ae77a3ef27e8be",
         "android_client_info": {
-          "package_name": "team47.pokedex"
+          "package_name": "edu.northeastern.pokedex"
         }
       },
       "oauth_client": [
