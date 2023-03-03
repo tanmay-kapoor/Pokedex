@@ -72,6 +72,31 @@
             android:layout_marginBottom="122dp"
             android:visibility="invisible" />
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentBottom="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="Don't have an account?  "
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/createAccountTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="Sign up"
+            android:onClick="createAccount"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 </RelativeLayout>
