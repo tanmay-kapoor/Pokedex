@@ -1,10 +1,7 @@
-package edu.northeastern.pokedex.pokemonSearch;
-
-import static androidx.core.content.ContextCompat.startActivity;
+package edu.northeastern.pokedex.assignment7.pokemonSearch;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,10 +9,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.BreakIterator;
-
-import edu.northeastern.pokedex.MainActivity;
-import edu.northeastern.pokedex.PokemonDetailsActivity;
+import edu.northeastern.pokedex.assignment7.PokemonDetailsActivity;
 import edu.northeastern.pokedex.R;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder{

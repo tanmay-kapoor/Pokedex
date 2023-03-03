@@ -1,4 +1,4 @@
-package edu.northeastern.pokedex.models;
+package edu.northeastern.pokedex.assignment7.models;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;

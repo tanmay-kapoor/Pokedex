@@ -1,11 +1,10 @@
-package edu.northeastern.pokedex.pokemonSearch;
+package edu.northeastern.pokedex.assignment7.pokemonSearch;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,11 +26,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.northeastern.pokedex.PokemonDetailsActivity;
+import edu.northeastern.pokedex.assignment7.PokemonDetailsActivity;
 import edu.northeastern.pokedex.R;
-import edu.northeastern.pokedex.models.Pokemon;
-import edu.northeastern.pokedex.models.TempPokemon;
-import edu.northeastern.pokedex.utils.NetworkUtil;
+import edu.northeastern.pokedex.assignment7.models.Pokemon;
+import edu.northeastern.pokedex.assignment7.models.TempPokemon;
+import edu.northeastern.pokedex.assignment7.utils.NetworkUtil;
 
 public class ChoosePokemonActivity extends AppCompatActivity {
     private List<Pokemon> pokemonList = new ArrayList<>();

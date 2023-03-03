@@ -1,4 +1,4 @@
-package edu.northeastern.pokedex.utils;
+package edu.northeastern.pokedex.assignment7.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

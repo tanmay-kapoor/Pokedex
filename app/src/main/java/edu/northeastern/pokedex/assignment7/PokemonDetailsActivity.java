@@ -1,4 +1,4 @@
-package edu.northeastern.pokedex;
+package edu.northeastern.pokedex.assignment7;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import edu.northeastern.pokedex.utils.NetworkUtil;
+import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.assignment7.utils.NetworkUtil;
 public class PokemonDetailsActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;

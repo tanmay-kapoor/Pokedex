@@ -1,6 +1,5 @@
-package edu.northeastern.pokedex.pokemonSearch;
+package edu.northeastern.pokedex.assignment7.pokemonSearch;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import edu.northeastern.pokedex.R;
-import edu.northeastern.pokedex.models.Pokemon;
+import edu.northeastern.pokedex.assignment7.models.Pokemon;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     private final List<Pokemon> pokemonList;

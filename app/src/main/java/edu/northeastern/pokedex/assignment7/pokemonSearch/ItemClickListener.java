@@ -1,4 +1,4 @@
-package edu.northeastern.pokedex.pokemonSearch;
+package edu.northeastern.pokedex.assignment7.pokemonSearch;
 
 public interface ItemClickListener {
     void onItemClick(int position);
