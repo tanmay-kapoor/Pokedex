@@ -6,12 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +36,7 @@ public class FirebaseActivity extends AppCompatActivity {
     private Map<Long, Message> messages;
     private SharedPreferences prefs;
     private String username;
+    private Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,16 @@ public class FirebaseActivity extends AppCompatActivity {
         messages = new HashMap<>();
         listenForMessageUpdates();
         displayMessages();
+        logout = findViewById(R.id.logOutBtn);
+        logout.setOnClickListener((it -> {
+            logout();
+        }));
+    }
+
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(FirebaseActivity.this, LoginActivity.class));
+        Toast.makeText(FirebaseActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
     }
 
     public void displayMessages() {
