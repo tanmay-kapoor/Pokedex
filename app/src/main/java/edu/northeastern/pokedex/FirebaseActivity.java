@@ -5,6 +5,8 @@ import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,10 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import edu.northeastern.pokedex.messaging.RecyclerAdapter;
 import edu.northeastern.pokedex.models.Message;
 
 public class FirebaseActivity extends AppCompatActivity {
@@ -30,13 +35,14 @@ public class FirebaseActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference messageRef;
     private Map<Long, Message> messages;
+    private RecyclerView recyclerView;
     private SharedPreferences prefs;
     private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_firebase);
+        setContentView(R.layout.actvity_messaging);
 
         prefs = getDefaultSharedPreferences(getApplicationContext());
         username = prefs.getString("username", "not logged in");
@@ -45,6 +51,31 @@ public class FirebaseActivity extends AppCompatActivity {
         messages = new HashMap<>();
         listenForMessageUpdates();
         displayMessages();
+
+        init(savedInstanceState);
+    }
+
+    private void init (Bundle savedInstanceState) {
+        recyclerView();
+    }
+
+    private void recyclerView() {
+        RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.messagesRv);
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getMessageList(), getApplicationContext());
+
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+    }
+
+    private List<Message> getMessageList() {
+        List<Message> messageList = new ArrayList<>();
+        for(Long ts : messages.keySet()) {
+            messageList.add(messages.get(ts));
+        }
+        return messageList;
     }
 
     public void displayMessages() {

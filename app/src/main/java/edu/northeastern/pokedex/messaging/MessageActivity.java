@@ -17,10 +17,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Iterator;
+import java.util.Map;
+
+import edu.northeastern.pokedex.models.Message;
 
 public class MessageActivity extends AppCompatActivity {
     SharedPreferences prefs;
     private DatabaseReference mDatabase;
+
+    Map<Long, Message> messages;
 
     @Override
     protected void onCreate(Bundle saveInstances) {
