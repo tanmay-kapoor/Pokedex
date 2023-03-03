@@ -16,12 +16,14 @@ import edu.northeastern.pokedex.models.Message;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder{
     private Map<Long, Message> messages;
+    ImageView sticker;
+    CardView cardView;
 
     public RecyclerHolder(View itemView, final ItemClickListener listener) {
         super(itemView);
 
-        ImageView sticker = itemView.findViewById(R.id.sticker);
-        CardView cardView = itemView.findViewById(R.id.messageCV);
+        sticker = itemView.findViewById(R.id.sticker);
+        cardView = itemView.findViewById(R.id.messageCV);
 
         cardView.setOnClickListener(view -> {
             Context context = itemView.getContext();
