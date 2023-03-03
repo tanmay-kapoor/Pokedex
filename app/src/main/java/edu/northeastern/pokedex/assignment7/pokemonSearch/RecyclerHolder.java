@@ -18,30 +18,22 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
     ImageView pokemonImage;
     TextView pokemonName;
     TextView pokemonID;
-    private CardView pokemonItem;
     int pokeID;
 
     public RecyclerHolder(View itemView, final ItemClickListener listener) {
         super(itemView);
 
-
         pokemonName = itemView.findViewById(R.id.pokemonNameTV);
         pokemonID = itemView.findViewById(R.id.pokeID);
         pokemonImage = itemView.findViewById(R.id.pokemonImageIV);
-        pokemonItem = itemView.findViewById(R.id.pokemonItemCV);
+        CardView pokemonItem = itemView.findViewById(R.id.pokemonItemCV);
 
-        pokemonItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context = itemView.getContext();
-                intent = new Intent(context, PokemonDetailsActivity.class);
-                intent.putExtra("pokeID", pokeID);
-                context.startActivity(intent);
-            }
+        pokemonItem.setOnClickListener(view -> {
+            context = itemView.getContext();
+            intent = new Intent(context, PokemonDetailsActivity.class);
+            intent.putExtra("pokeID", pokeID);
+            context.startActivity(intent);
         });
-
     }
-
-
 
 }

@@ -1,5 +1,6 @@
 package edu.northeastern.pokedex.assignment7.pokemonSearch;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.northeastern.pokedex.assignment7.PokemonDetailsActivity;
 import edu.northeastern.pokedex.R;
@@ -33,12 +35,8 @@ import edu.northeastern.pokedex.assignment7.models.TempPokemon;
 import edu.northeastern.pokedex.assignment7.utils.NetworkUtil;
 
 public class ChoosePokemonActivity extends AppCompatActivity {
-    private List<Pokemon> pokemonList = new ArrayList<>();
+    private final List<Pokemon> pokemonList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager recyclerLayoutManger;
-    private RecyclerAdapter recyclerAdapter;
-    private Button previousButton;
-    private Button nextButton;
     private String currPokeListLink;
     private String prevPokeListLink;
     private String nextPokeListLink;
@@ -54,8 +52,8 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         prevPokeListLink = null;
         nextPokeListLink = null;
         setContentView(R.layout.choose_pokemon);
-        previousButton = findViewById(R.id.prevBtn);
-        nextButton = findViewById(R.id.nextBtn);
+        Button previousButton = findViewById(R.id.prevBtn);
+        Button nextButton = findViewById(R.id.nextBtn);
         progressBar = findViewById(R.id.progressBar);
         searchEditText = findViewById(R.id.pokeIDSearch);
         init(savedInstanceState);
@@ -129,12 +127,13 @@ public class ChoosePokemonActivity extends AppCompatActivity {
         recycleRecyclerView();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void recycleRecyclerView() {
         //Delete all items from the recyclerview
         if (shouldReset) {
             if (pokemonList.size() > 0) {
                 pokemonList.clear();
-                recyclerView.getAdapter().notifyDataSetChanged();
+                Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
             }
             progressBar.setVisibility(View.VISIBLE);
             //Get new data
@@ -149,11 +148,11 @@ public class ChoosePokemonActivity extends AppCompatActivity {
     }
 
     private void createRecyclerView() {
-        recyclerLayoutManger = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager recyclerLayoutManger = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.pokemonsRV);
         recyclerView.setHasFixedSize(true);
 
-        recyclerAdapter = new RecyclerAdapter(pokemonList);
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(pokemonList);
 
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(recyclerLayoutManger);
@@ -207,10 +206,11 @@ public class ChoosePokemonActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
             runOnUiThread(new Runnable() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void run() {
                     progressBar.setVisibility(View.INVISIBLE);
-                    recyclerView.getAdapter().notifyDataSetChanged();
+                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
                 }
             });
         }
