@@ -44,6 +44,28 @@ public class FirebaseActivity extends AppCompatActivity {
         messageRef = mDatabase.child("room1").child("messages");
         messages = new HashMap<>();
         listenForMessageUpdates();
+        displayMessages();
+    }
+
+    public void displayMessages() {
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dsp : snapshot.getChildren()) {
+                    long timestamp = Long.parseLong(dsp.getKey());
+                    Iterator<DataSnapshot> children = dsp.getChildren().iterator();
+                    String sender = children.next().getValue().toString();
+                    String sticker = children.next().getValue().toString();
+                    Log.i("SENDER", sender);
+                    Log.i("STICKER", sticker);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void sendMessage(View view) {
