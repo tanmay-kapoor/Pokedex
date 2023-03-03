@@ -28,14 +28,28 @@ public class MainActivity extends AppCompatActivity {
 
     public void startFirebaseActivity(View view) {
         if(prefs.contains("username")) {
-            if(prefs.getLong("expiration", 0) < (System.currentTimeMillis()/1000)) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.clear();
-                editor.apply();
+            if(prefs.getLong("expiration", 0) <= (System.currentTimeMillis()/1000)) {
+                clearSharedPrefs();
+                startLoginActivity();
+            } else {
+                startFirebaseActivity();
             }
-            startActivity(new Intent(MainActivity.this, FirebaseActivity.class));
         } else {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startLoginActivity();
         }
+    }
+
+    private void clearSharedPrefs() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+    }
+
+    private void startLoginActivity() {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    private void startFirebaseActivity() {
+        startActivity(new Intent(MainActivity.this, FirebaseActivity.class));
     }
 }
