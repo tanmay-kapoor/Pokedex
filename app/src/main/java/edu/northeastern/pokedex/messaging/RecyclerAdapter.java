@@ -42,7 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         Message message = messageList.get(position);
-        Drawable stickerDrawable = AppCompatResources.getDrawable(context, R.drawable.laugh);
+        Drawable stickerDrawable = AppCompatResources.getDrawable(context, message.getSticker());
         holder.sticker.setImageDrawable(stickerDrawable);
     }
 

@@ -12,7 +12,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -50,7 +52,6 @@ public class FirebaseActivity extends AppCompatActivity {
         messageRef = mDatabase.child("room1").child("messages");
         messages = new HashMap<>();
         listenForMessageUpdates();
-        displayMessages();
 
         init(savedInstanceState);
     }
@@ -68,36 +69,25 @@ public class FirebaseActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(recyclerLayoutManager);
+        Log.i("MESSAGE_SIZE", String.valueOf(messages.size()));
     }
 
     private List<Message> getMessageList() {
         List<Message> messageList = new ArrayList<>();
-        for(Long ts : messages.keySet()) {
-            messageList.add(messages.get(ts));
-        }
+//        for(Long ts : messages.keySet()) {
+//            messageList.add(messages.get(ts));
+//        }
+        messageList.add(new Message("supra", R.drawable.battered));
+        messageList.add(new Message("david", R.drawable.battered));
+        messageList.add(new Message("grish", R.drawable.speculate));
+//        messageList.add(new Message("tan", R.drawable.battered));
+//        messageList.add(new Message("par", R.drawable.laugh));
+//        messageList.add(new Message("supra", R.drawable.speculate));
+//        messageList.add(new Message("zoom", R.drawable.speculate));
+//        messageList.add(new Message("supra", R.drawable.battered));
         return messageList;
     }
 
-    public void displayMessages() {
-        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dsp : snapshot.getChildren()) {
-                    long timestamp = Long.parseLong(dsp.getKey());
-                    Iterator<DataSnapshot> children = dsp.getChildren().iterator();
-                    String sender = children.next().getValue().toString();
-                    String sticker = children.next().getValue().toString();
-                    Log.i("SENDER", sender);
-                    Log.i("STICKER", sticker);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     public void sendMessage(View view) {
         String timestamp = Long.toString(System.currentTimeMillis());
@@ -106,12 +96,13 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = username;
 
         // change when adding grid view
-        int sticker = R.drawable.laugh;
+        int sticker = R.drawable.battered;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/" + timestamp, message);
         messageRef.updateChildren(childUpdates);
+        Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
     }
 
     private void updateMessagesMap(DataSnapshot snapshot) {
@@ -130,6 +121,7 @@ public class FirebaseActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // add in hashmap and update on screen
                 updateMessagesMap(snapshot);
+                Log.i("map length", Integer.toString(messages.size()));
 
                 // if sender matches user name in shared pref then
                 //      display on right (sent by this user)
