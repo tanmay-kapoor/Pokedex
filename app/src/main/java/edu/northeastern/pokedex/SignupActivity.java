@@ -3,7 +3,6 @@ package edu.northeastern.pokedex;
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
