@@ -6,20 +6,20 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('/Users/tanmaykapoor/Desktop/college/mad/keystore/pokedex_keystore')
-            storePassword 'Fruitninja!1'
-            keyAlias 'pokedex_key'
-            keyPassword 'Fruitninja!1'
-        }
-        release {
-            storeFile file('/Users/tanmaykapoor/Desktop/college/mad/keystore/pokedex_keystore')
-            storePassword 'Fruitninja!1'
-            keyAlias 'pokedex_key'
-            keyPassword 'Fruitninja!1'
-        }
-    }
+//    signingConfigs {
+//        debug {
+//            storeFile file('/Users/tanmaykapoor/Desktop/college/mad/keystore/pokedex_keystore')
+//            storePassword 'Fruitninja!1'
+//            keyAlias 'pokedex_key'
+//            keyPassword 'Fruitninja!1'
+//        }
+//        release {
+//            storeFile file('/Users/tanmaykapoor/Desktop/college/mad/keystore/pokedex_keystore')
+//            storePassword 'Fruitninja!1'
+//            keyAlias 'pokedex_key'
+//            keyPassword 'Fruitninja!1'
+//        }
+//    }
     namespace 'edu.northeastern.pokedex'
     compileSdk 33
 
@@ -40,7 +40,7 @@ android {
             debuggable true
             jniDebuggable true
             renderscriptDebuggable true
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
     compileOptions {
