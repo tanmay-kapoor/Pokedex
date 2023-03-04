@@ -51,9 +51,8 @@ public class FirebaseActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageRef = mDatabase.child("room1").child("messages");
         messages = new HashMap<>();
-        listenForMessageUpdates();
 
-        init(savedInstanceState);
+        populateMessagesMap(savedInstanceState);
     }
 
     private void init (Bundle savedInstanceState) {
@@ -74,12 +73,12 @@ public class FirebaseActivity extends AppCompatActivity {
 
     private List<Message> getMessageList() {
         List<Message> messageList = new ArrayList<>();
-//        for(Long ts : messages.keySet()) {
-//            messageList.add(messages.get(ts));
-//        }
-        messageList.add(new Message("supra", R.drawable.battered));
-        messageList.add(new Message("david", R.drawable.battered));
-        messageList.add(new Message("grish", R.drawable.speculate));
+        for(Long ts : messages.keySet()) {
+            messageList.add(messages.get(ts));
+        }
+//        messageList.add(new Message("supra", R.drawable.battered));
+//        messageList.add(new Message("david", R.drawable.battered));
+//        messageList.add(new Message("grish", R.drawable.speculate));
 //        messageList.add(new Message("tan", R.drawable.battered));
 //        messageList.add(new Message("par", R.drawable.laugh));
 //        messageList.add(new Message("supra", R.drawable.speculate));
@@ -96,7 +95,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = username;
 
         // change when adding grid view
-        int sticker = R.drawable.battered;
+        int sticker = R.drawable.speculate;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -113,6 +112,24 @@ public class FirebaseActivity extends AppCompatActivity {
 
         Message message = new Message(sender, sticker);
         messages.put(timestamp, message);
+    }
+
+    private void populateMessagesMap(Bundle savedInstanceState) {
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dsp : snapshot.getChildren()) {
+                    updateMessagesMap(dsp);
+                }
+                init(savedInstanceState);
+                listenForMessageUpdates();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void listenForMessageUpdates() {
