@@ -49,7 +49,7 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
                     addNameToUserProfile(name);
                 } else {
-                    Toast.makeText(SignupActivity.this, "Account creation failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "This email is in use already!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
