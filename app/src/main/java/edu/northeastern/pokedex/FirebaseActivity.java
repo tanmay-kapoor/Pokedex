@@ -52,7 +52,7 @@ public class FirebaseActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
-    private void init (Bundle savedInstanceState) {
+    private void init(Bundle savedInstanceState) {
         recyclerView();
     }
 
@@ -98,6 +98,10 @@ public class FirebaseActivity extends AppCompatActivity {
                 updateMessagesMap(snapshot);
                 recyclerAdapter.notifyItemInserted(messageList.size());
                 recyclerView.scrollToPosition(messageList.size() - 1);
+                String msgSender = snapshot.getChildren().iterator().next().getValue().toString();
+                if (msgSender.equals(user.getEmail())) {
+                    Toast.makeText(FirebaseActivity.this, "wassup", Toast.LENGTH_SHORT).show();
+                }
 
                 // if sender is current user then
                 //      display on right (sent by this user)
