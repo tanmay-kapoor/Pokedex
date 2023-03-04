@@ -1,17 +1,14 @@
 package edu.northeastern.pokedex;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -34,23 +31,28 @@ public class SignupActivity extends AppCompatActivity {
 
     public void createAccount(View view) {
         EditText emailEditText = findViewById(R.id.username);
-        String email = emailEditText.getText().toString();
-        String password = "password";
+        String email = emailEditText.getText().toString().trim();
+        String password = Utils.getDefaultPassword();
 
         EditText nameEditText = findViewById(R.id.name);
-        String name = nameEditText.getText().toString();
+        String name = nameEditText.getText().toString().trim();
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        if (TextUtils.isEmpty(name)) {
+            emailEditText.setError("Name cannot be empty");
+        } else if (TextUtils.isEmpty(email)) {
+            nameEditText.setError("Email cannot be empty");
+        } else if (!Utils.isValidEmail(email)) {
+            emailEditText.setError("Invalid email format");
+        } else {
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
                     addNameToUserProfile(name);
                 } else {
                     Toast.makeText(SignupActivity.this, "Account creation failed", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        }
     }
 
     private void addNameToUserProfile(String name) {
