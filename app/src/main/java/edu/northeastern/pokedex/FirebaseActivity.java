@@ -54,7 +54,8 @@ public class FirebaseActivity extends AppCompatActivity {
         messageRef = mDatabase.child("room1").child("messages");
         messageList = new ArrayList<>();
 
-        populateMessagesMap(savedInstanceState);
+        listenForMessageUpdates();
+        init(savedInstanceState);
 
     }
 
@@ -94,26 +95,6 @@ public class FirebaseActivity extends AppCompatActivity {
         int sticker = Integer.parseInt(children.next().getValue().toString());
 
         messageList.add(new Message(sender, sticker));
-    }
-
-    private void populateMessagesMap(Bundle savedInstanceState) {
-        Query query = messageRef.orderByKey();
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dsp : snapshot.getChildren()) {
-                    updateMessagesMap(dsp);
-                }
-                init(savedInstanceState);
-                listenForMessageUpdates();
-                recyclerView.scrollToPosition(messageList.size()-1);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void listenForMessageUpdates() {
