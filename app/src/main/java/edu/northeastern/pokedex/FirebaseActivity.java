@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +80,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = user.getEmail();
 
         // change when adding grid view
-        int sticker = R.drawable.speculate;
+        int sticker = R.drawable.laugh;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -97,37 +99,51 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void listenForMessageUpdates() {
-        messageRef.addChildEventListener(new ChildEventListener() {
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // add in hashmap and update on screen
-                updateMessagesMap(snapshot);
-                recyclerAdapter.notifyItemInserted(messageList.size());
-                recyclerView.scrollToPosition(messageList.size() - 1);
-                String msgSender = snapshot.getChildren().iterator().next().getValue().toString();
-                if (msgSender.equals(user.getEmail())) {
-                    Toast.makeText(FirebaseActivity.this, "wassup", Toast.LENGTH_SHORT).show();
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long existingChildrenCount = snapshot.getChildrenCount();
+                final long[] cnt = {0};
 
-                // if sender is current user then
-                //      display on right (sent by this user)
-                // else
-                //      display on left (received by this user)
-            }
+                messageRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        cnt[0]++;
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d("onChildChanged", "called");
-            }
+                        updateMessagesMap(snapshot);
+                        recyclerAdapter.notifyItemInserted(messageList.size());
+                        recyclerView.scrollToPosition(messageList.size() - 1);
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                // delete from messages map and update screen
-            }
+                        if (cnt[0] > existingChildrenCount) {
+                            String msgSender = snapshot.getChildren().iterator().next().getValue().toString();
+                            if (TextUtils.equals(msgSender, user.getEmail())) {
+                                Toast.makeText(FirebaseActivity.this, "send notif to others", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(FirebaseActivity.this, "you receive notif", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Log.d("onChildChanged", "called");
+                    }
 
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        // delete from messages map and update screen
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override
