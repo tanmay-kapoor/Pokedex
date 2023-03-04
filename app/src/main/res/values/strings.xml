@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pokedex</string>
+    <string name="choose_sticker_button">Choose Sticker</string>
+    <string name="date">date</string>
+    <string name="time">time</string>
+    <string name="ImageSent">ImageSent</string>
 </resources>
