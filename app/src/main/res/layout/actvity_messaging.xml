@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Choose Sticker"
-        android:onClick="sendMessage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
