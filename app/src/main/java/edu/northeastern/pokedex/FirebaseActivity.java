@@ -37,7 +37,6 @@ public class FirebaseActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private DatabaseReference messageRef;
-    private Map<Long, Message> messages;
     private List<Message> messageList;
     private RecyclerView recyclerView;
     private SharedPreferences prefs;
@@ -53,7 +52,6 @@ public class FirebaseActivity extends AppCompatActivity {
         username = prefs.getString("username", "not logged in");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageRef = mDatabase.child("room1").child("messages");
-        messages = new HashMap<>();
         messageList = new ArrayList<>();
 
         populateMessagesMap(savedInstanceState);
@@ -71,15 +69,6 @@ public class FirebaseActivity extends AppCompatActivity {
         recyclerAdapter = new RecyclerAdapter(messageList, getApplicationContext());
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(recyclerLayoutManager);
-        Log.i("MESSAGE_SIZE", String.valueOf(messages.size()));
-    }
-
-    private List<Message> getMessageList() {
-        List<Message> messageList = new ArrayList<>();
-        for(Long ts : messages.keySet()) {
-            messageList.add(messages.get(ts));
-        }
-        return messageList;
     }
 
     public void sendMessage(View view) {
@@ -104,9 +93,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = children.next().getValue().toString();
         int sticker = Integer.parseInt(children.next().getValue().toString());
 
-        Message message = new Message(sender, sticker);
-        messages.put(timestamp, message);
-        messageList.add(message);
+        messageList.add(new Message(sender, sticker));
     }
 
     private void populateMessagesMap(Bundle savedInstanceState) {
@@ -137,7 +124,6 @@ public class FirebaseActivity extends AppCompatActivity {
                 updateMessagesMap(snapshot);
                 recyclerAdapter.notifyItemInserted(messageList.size());
                 recyclerView.scrollToPosition(messageList.size() - 1);
-                Log.i("map length", Integer.toString(messages.size()));
 
                 // if sender matches user name in shared pref then
                 //      display on right (sent by this user)
