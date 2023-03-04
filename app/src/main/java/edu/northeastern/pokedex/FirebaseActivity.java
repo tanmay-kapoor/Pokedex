@@ -89,7 +89,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = username;
 
         // change when adding grid view
-        int sticker = R.drawable.laugh;
+        int sticker = R.drawable.smile;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -118,6 +118,7 @@ public class FirebaseActivity extends AppCompatActivity {
                 }
                 init(savedInstanceState);
                 listenForMessageUpdates();
+                recyclerView.scrollToPosition(messageList.size()-1);
             }
 
             @Override
@@ -134,6 +135,7 @@ public class FirebaseActivity extends AppCompatActivity {
                 // add in hashmap and update on screen
                 updateMessagesMap(snapshot);
                 recyclerAdapter.notifyItemInserted(messageList.size());
+                recyclerView.scrollToPosition(messageList.size() - 1);
                 Log.i("map length", Integer.toString(messages.size()));
 
                 // if sender matches user name in shared pref then
