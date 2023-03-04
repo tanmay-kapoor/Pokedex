@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -81,7 +82,6 @@ public class FirebaseActivity extends AppCompatActivity {
         return messageList;
     }
 
-
     public void sendMessage(View view) {
         String timestamp = Long.toString(System.currentTimeMillis());
 
@@ -89,7 +89,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = username;
 
         // change when adding grid view
-        int sticker = R.drawable.smile;
+        int sticker = R.drawable.speculate;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -110,7 +110,8 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void populateMessagesMap(Bundle savedInstanceState) {
-        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = messageRef.orderByKey();
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dsp : snapshot.getChildren()) {
