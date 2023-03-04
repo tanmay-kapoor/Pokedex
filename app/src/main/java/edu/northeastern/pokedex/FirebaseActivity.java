@@ -1,28 +1,23 @@
 package edu.northeastern.pokedex;
 
-import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,28 +30,26 @@ import edu.northeastern.pokedex.models.Message;
 
 public class FirebaseActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
     private DatabaseReference messageRef;
     private List<Message> messageList;
     private RecyclerView recyclerView;
-    private SharedPreferences prefs;
-    private String username;
     private RecyclerAdapter recyclerAdapter;
+
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_messaging);
 
-        prefs = getDefaultSharedPreferences(getApplicationContext());
-        username = prefs.getString("username", "not logged in");
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         messageRef = mDatabase.child("room1").child("messages");
         messageList = new ArrayList<>();
 
         listenForMessageUpdates();
         init(savedInstanceState);
-
     }
 
     private void init (Bundle savedInstanceState) {
@@ -76,7 +69,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String timestamp = Long.toString(System.currentTimeMillis());
 
         // temp values
-        String sender = username;
+        String sender = user.getEmail();
 
         // change when adding grid view
         int sticker = R.drawable.speculate;
@@ -106,7 +99,7 @@ public class FirebaseActivity extends AppCompatActivity {
                 recyclerAdapter.notifyItemInserted(messageList.size());
                 recyclerView.scrollToPosition(messageList.size() - 1);
 
-                // if sender matches user name in shared pref then
+                // if sender is current user then
                 //      display on right (sent by this user)
                 // else
                 //      display on left (received by this user)
