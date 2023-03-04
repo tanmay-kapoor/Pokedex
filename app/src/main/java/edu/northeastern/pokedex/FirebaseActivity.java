@@ -55,6 +55,7 @@ public class FirebaseActivity extends AppCompatActivity {
 
         Button chooseStickerBtn = findViewById(R.id.chooseBtn);
         chooseStickerBtn.setOnClickListener(view -> startActivity(new Intent(FirebaseActivity.this, ChooseStickerActivity.class)));
+//        chooseStickerBtn.setOnClickListener(view -> sendMessage(view));
     }
 
     private void init(Bundle savedInstanceState) {
