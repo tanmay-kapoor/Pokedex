@@ -37,9 +37,11 @@ public class FirebaseActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference messageRef;
     private Map<Long, Message> messages;
+    private List<Message> messageList;
     private RecyclerView recyclerView;
     private SharedPreferences prefs;
     private String username;
+    private RecyclerAdapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,10 @@ public class FirebaseActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageRef = mDatabase.child("room1").child("messages");
         messages = new HashMap<>();
+        messageList = new ArrayList<>();
 
         populateMessagesMap(savedInstanceState);
+
     }
 
     private void init (Bundle savedInstanceState) {
@@ -63,9 +67,7 @@ public class FirebaseActivity extends AppCompatActivity {
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.messagesRv);
         recyclerView.setHasFixedSize(true);
-
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getMessageList(), getApplicationContext());
-
+        recyclerAdapter = new RecyclerAdapter(messageList, getApplicationContext());
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(recyclerLayoutManager);
         Log.i("MESSAGE_SIZE", String.valueOf(messages.size()));
@@ -76,14 +78,6 @@ public class FirebaseActivity extends AppCompatActivity {
         for(Long ts : messages.keySet()) {
             messageList.add(messages.get(ts));
         }
-//        messageList.add(new Message("supra", R.drawable.battered));
-//        messageList.add(new Message("david", R.drawable.battered));
-//        messageList.add(new Message("grish", R.drawable.speculate));
-//        messageList.add(new Message("tan", R.drawable.battered));
-//        messageList.add(new Message("par", R.drawable.laugh));
-//        messageList.add(new Message("supra", R.drawable.speculate));
-//        messageList.add(new Message("zoom", R.drawable.speculate));
-//        messageList.add(new Message("supra", R.drawable.battered));
         return messageList;
     }
 
@@ -95,7 +89,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String sender = username;
 
         // change when adding grid view
-        int sticker = R.drawable.speculate;
+        int sticker = R.drawable.laugh;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -112,6 +106,7 @@ public class FirebaseActivity extends AppCompatActivity {
 
         Message message = new Message(sender, sticker);
         messages.put(timestamp, message);
+        messageList.add(message);
     }
 
     private void populateMessagesMap(Bundle savedInstanceState) {
@@ -138,6 +133,7 @@ public class FirebaseActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // add in hashmap and update on screen
                 updateMessagesMap(snapshot);
+                recyclerAdapter.notifyItemInserted(messageList.size());
                 Log.i("map length", Integer.toString(messages.size()));
 
                 // if sender matches user name in shared pref then
