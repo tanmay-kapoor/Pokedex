@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,13 +24,13 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
         super(itemView);
 
         sticker = itemView.findViewById(R.id.sticker);
-        cardView = itemView.findViewById(R.id.messageCV);
-
-        cardView.setOnClickListener(view -> {
-            Context context = itemView.getContext();
-            Intent intent = new Intent(context, FirebaseActivity.class);
-            context.startActivity(intent);
-        });
+//        cardView = itemView.findViewById(R.id.messageCV);
+//
+//        cardView.setOnClickListener(view -> {
+//            Context context = itemView.getContext();
+//            Intent intent = new Intent(context, FirebaseActivity.class);
+//            context.startActivity(intent);
+//        });
     }
 
 }
