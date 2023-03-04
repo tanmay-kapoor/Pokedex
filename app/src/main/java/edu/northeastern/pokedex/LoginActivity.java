@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void authenticate(View view) {
-        EditText emailEditText = findViewById(R.id.username);
+        EditText emailEditText = findViewById(R.id.email);
         String email = emailEditText.getText().toString().trim();
         String password = Utils.getDefaultPassword();
 

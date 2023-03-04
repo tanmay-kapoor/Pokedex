@@ -31,7 +31,7 @@
             android:textSize="25.00sp" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10.00dp"
@@ -41,7 +41,7 @@
             android:layout_marginRight="10.00dp"
             android:background="@drawable/car_ui_divider"
             android:fontFamily="sans-serif-medium"
-            android:hint="Username"
+            android:hint="Email"
             android:gravity="center"
             android:minHeight="48dp"
             android:padding="10dp"
