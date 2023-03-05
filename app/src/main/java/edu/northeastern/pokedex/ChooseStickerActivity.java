@@ -59,6 +59,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
                     String key = dataSnapshot.getKey().toString();
                     String val = dataSnapshot.getValue().toString();
                     stickerList.add(new Pair<>(key, val));
+                    System.out.println(stickerList);
                 }
                 stickerAdapter.notifyDataSetChanged();
             }

@@ -43,8 +43,6 @@ public class MessageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void openStickers(View view) {
-        startActivity(new Intent(MessageActivity.this, ChooseStickerActivity.class));
-    }
+
 
 }
