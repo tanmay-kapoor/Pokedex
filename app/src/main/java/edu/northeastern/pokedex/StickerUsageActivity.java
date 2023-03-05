@@ -29,7 +29,7 @@ public class StickerUsageActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        userStickerRef = mDatabase.child("room1").child("stickers").child(user.getUid());
+        userStickerRef = mDatabase.child("stickers").child(user.getUid());
         stickerDetails = new HashMap<>();
         getStickerDetails();
     }
