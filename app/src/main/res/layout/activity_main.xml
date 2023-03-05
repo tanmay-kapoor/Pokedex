@@ -10,23 +10,23 @@
         android:id="@+id/TeamName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center"
         android:text="Team 47"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/AtYourService"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/abotBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/AtYourService"
-        android:layout_width="199dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="36dp"
         android:backgroundTint="@color/red_variant"
         android:onClick="startPokemonChooseActivity"
         android:text="At Your Service"
@@ -37,40 +37,30 @@
 
     <Button
         android:id="@+id/FirebaseRealtimeDatabase"
-        android:layout_width="199dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="42dp"
         android:backgroundTint="@color/red_variant"
-        android:text="Firebase Realtime Database"
         android:onClick="startFirebaseActivity"
-        app:layout_constraintBottom_toTopOf="@+id/FinalProject"
+        android:text="Firebase Realtime Database"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AtYourService" />
 
     <Button
-        android:id="@+id/FinalProject"
-        android:layout_width="199dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/red_variant"
-        android:text="Final Project"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FirebaseRealtimeDatabase" />
-
-    <Button
         android:id="@+id/abotBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:text="About"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="20dp"
         android:onClick="aboutActivity"
-        app:layout_constraintBottom_toTopOf="@+id/AtYourService"
+        android:text="About"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TeamName" />
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toEndOf="@+id/TeamName"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
