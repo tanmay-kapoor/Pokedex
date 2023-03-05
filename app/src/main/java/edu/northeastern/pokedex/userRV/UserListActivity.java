@@ -29,6 +29,7 @@ import java.util.List;
 import edu.northeastern.pokedex.FirebaseActivity;
 import edu.northeastern.pokedex.MainActivity;
 import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.StickerStatsActivity;
 import edu.northeastern.pokedex.assignment7.models.TempPokemon;
 import edu.northeastern.pokedex.models.ParcelableUser;
 import edu.northeastern.pokedex.models.User;
@@ -81,14 +82,17 @@ public class UserListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 return true;
             case R.id.stats:
+                intent = new Intent(getApplicationContext(), StickerStatsActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

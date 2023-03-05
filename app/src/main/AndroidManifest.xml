@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="31">
         <activity
+            android:name=".StickerStatsActivity"
+            android:exported="false" />
+        <activity
             android:name=".StickerUsageActivity"
             android:exported="false">
             <meta-data
