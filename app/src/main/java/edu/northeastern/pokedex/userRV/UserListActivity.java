@@ -1,9 +1,13 @@
 package edu.northeastern.pokedex.userRV;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.northeastern.pokedex.FirebaseActivity;
+import edu.northeastern.pokedex.MainActivity;
 import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.StickerStatsActivity;
 import edu.northeastern.pokedex.assignment7.models.TempPokemon;
 import edu.northeastern.pokedex.models.ParcelableUser;
 import edu.northeastern.pokedex.models.User;
@@ -64,6 +70,32 @@ public class UserListActivity extends AppCompatActivity {
         }
         recyclerView();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.logout_button, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return true;
+            case R.id.stats:
+                intent = new Intent(getApplicationContext(), StickerStatsActivity.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void recyclerView() {
