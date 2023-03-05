@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import edu.northeastern.pokedex.models.Message;
 public class FirebaseActivity extends AppCompatActivity {
 
     private DatabaseReference messageRef;
+    private DatabaseReference stickerRef;
     private List<Message> messageList;
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
@@ -59,6 +61,7 @@ public class FirebaseActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         messageRef = mDatabase.child("room1").child("messages");
+        stickerRef = mDatabase.child("room1").child("stickers");
         messageList = new ArrayList<>();
 
         listenForMessageUpdates();
@@ -79,8 +82,6 @@ public class FirebaseActivity extends AppCompatActivity {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("id", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -119,6 +120,10 @@ public class FirebaseActivity extends AppCompatActivity {
         recyclerView();
     }
 
+    public void getStickerDetails(View view) {
+        startActivity(new Intent(FirebaseActivity.this, StickerUsageActivity.class));
+    }
+
     private void recyclerView() {
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.messagesRv);
@@ -126,22 +131,6 @@ public class FirebaseActivity extends AppCompatActivity {
         recyclerAdapter = new RecyclerAdapter(messageList, getApplicationContext());
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(recyclerLayoutManager);
-    }
-
-    public void sendMessage(View view) {
-        String timestamp = Long.toString(System.currentTimeMillis());
-
-        // temp values
-        String sender = user.getEmail();
-
-        // change when adding grid view
-        int sticker = R.drawable.laugh;
-        Message message = new Message(sender, sticker);
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/" + timestamp, message);
-        messageRef.updateChildren(childUpdates);
-        Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
     }
 
     private void updateMessagesMap(DataSnapshot snapshot) {
@@ -179,6 +168,9 @@ public class FirebaseActivity extends AppCompatActivity {
                             if (!TextUtils.equals(msgSender, user.getEmail())) {
                                 sendNotification(sticker);
                             }
+
+                            DatabaseReference ref = stickerRef.child(user.getUid()).child(Integer.toString(sticker));
+                            ref.setValue(ServerValue.increment(1));
                         }
                     }
 

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesRv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/chooseBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,11 +23,35 @@
         android:id="@+id/chooseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="Choose Sticker"
+        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
+        app:layout_constraintEnd_toStartOf="@+id/stickerUsageBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messagesRv"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/stickerUsageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sticker usage"
+        android:onClick="getStickerDetails"
+        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/chooseBtn"
+        app:layout_constraintTop_toBottomOf="@+id/messagesRv"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messagesRv" />
+        app:layout_constraintTop_toBottomOf="@+id/chooseBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

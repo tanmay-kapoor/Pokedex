@@ -49,11 +49,9 @@ public class ChooseStickerActivity extends AppCompatActivity {
     public void sendMessage(int image) {
         String timestamp = Long.toString(System.currentTimeMillis());
 
-        // temp values
         assert user != null;
         String sender = user.getEmail();
 
-        // change when adding grid view
         Message message = new Message(sender, image);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -61,7 +59,6 @@ public class ChooseStickerActivity extends AppCompatActivity {
         messageRef.updateChildren(childUpdates);
         Log.i("MSGSENDER", "shoul've got message");
         finish();
-//                Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
     }
 
 }
