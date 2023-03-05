@@ -156,14 +156,26 @@ public class FirebaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FirebaseActivity.class);
         intent.putExtra("uid", uid);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_MUTABLE);;
+
+        PendingIntent pIntent;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+        }
+
 
         Intent intentForReply = new Intent(this, FirebaseActivity.class);
         intentForReply.putExtra("uid", uid);
         intentForReply.putExtra("fromNotification", true);
         intentForReply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, PendingIntent.FLAG_MUTABLE);
+        PendingIntent checkIntent;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, 0);
+        }
 
         String channelId = "id";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
