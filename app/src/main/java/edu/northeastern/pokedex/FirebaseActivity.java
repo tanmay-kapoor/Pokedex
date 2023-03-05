@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,11 +61,13 @@ public class FirebaseActivity extends AppCompatActivity {
     private String currUid;
     private String otherUid;
     private String key;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_messaging);
+        progressBar = findViewById(R.id.progressBar);
         getSupportActionBar().setTitle("Chat");
         createNotificationChannel();
 
@@ -224,7 +227,6 @@ public class FirebaseActivity extends AppCompatActivity {
                 Log.i("called again", "yes");
                 long existingChildrenCount = snapshot.getChildrenCount();
                 final long[] cnt = {0};
-
                 mRef.orderByKey().addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -277,6 +279,7 @@ public class FirebaseActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
 
 //        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {

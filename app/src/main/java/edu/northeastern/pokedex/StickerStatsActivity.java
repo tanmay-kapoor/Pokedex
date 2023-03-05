@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,11 +45,15 @@ public class StickerStatsActivity extends AppCompatActivity {
     List<Sticker> stickerList;
     private DatabaseReference userStickerRef;
     private Map<Integer, Integer> stickerDetails;
+    private ProgressBar progressBar;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("Stats");
         setContentView(R.layout.activity_sticker_stats);
+        progressBar = findViewById(R.id.progressBar);
         stickerList = new ArrayList<>();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -59,6 +65,7 @@ public class StickerStatsActivity extends AppCompatActivity {
     }
 
     private void getStickerDetails() {
+        progressBar.setVisibility(View.VISIBLE);
         userStickerRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -69,6 +76,7 @@ public class StickerStatsActivity extends AppCompatActivity {
 
                         stickerList.add(new Sticker("Sticker", count, getDrawable(sticker)));
                         recyclerView.getAdapter().notifyItemInserted(stickerList.size()-1);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                     // display each sticker with count
 

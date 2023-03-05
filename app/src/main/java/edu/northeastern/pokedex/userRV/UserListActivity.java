@@ -42,6 +42,7 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstances) {
         super.onCreate(savedInstances);
         setContentView(R.layout.user_list);
+        getSupportActionBar().setTitle("Users");
         init(savedInstances);
     }
 
