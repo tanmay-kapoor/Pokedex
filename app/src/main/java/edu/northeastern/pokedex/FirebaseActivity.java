@@ -1,27 +1,34 @@
 package edu.northeastern.pokedex;
 
-import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,31 +42,80 @@ import edu.northeastern.pokedex.models.Message;
 
 public class FirebaseActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
     private DatabaseReference messageRef;
     private List<Message> messageList;
     private RecyclerView recyclerView;
-    private SharedPreferences prefs;
-    private String username;
     private RecyclerAdapter recyclerAdapter;
+
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_messaging);
+        createNotificationChannel();
 
-        prefs = getDefaultSharedPreferences(getApplicationContext());
-        username = prefs.getString("username", "not logged in");
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         messageRef = mDatabase.child("room1").child("messages");
         messageList = new ArrayList<>();
 
         listenForMessageUpdates();
         init(savedInstanceState);
 
+        Button chooseStickerBtn = findViewById(R.id.chooseBtn);
+        chooseStickerBtn.setOnClickListener(view -> startChooseStickerActivity());
     }
 
-    private void init (Bundle savedInstanceState) {
+    private void startChooseStickerActivity() {
+        startActivity(new Intent(FirebaseActivity.this, ChooseStickerActivity.class));
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "name";
+            String description = "description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("id", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void sendNotification(int sticker) {
+        Intent intent = new Intent(this, FirebaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
+        Intent intentForReply = new Intent(this, FirebaseActivity.class);
+        intentForReply.putExtra("fromNotification", true);
+        intentForReply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, 0);
+
+        String channelId = "id";
+        NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.team_47_icon_foreground)
+                .setContentTitle(user.getDisplayName())
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBitmap(sticker)).bigLargeIcon(null))
+                .setLargeIcon(getBitmap(sticker))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .addAction(R.drawable.team_47_icon_foreground, "Reply", checkIntent)
+                .setContentIntent(pIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(0, notifyBuild.build());
+    }
+
+    private Bitmap getBitmap(int sticker) {
+        return BitmapFactory.decodeResource(getResources(), sticker);
+    }
+
+    private void init(Bundle savedInstanceState) {
         recyclerView();
     }
 
@@ -76,10 +132,10 @@ public class FirebaseActivity extends AppCompatActivity {
         String timestamp = Long.toString(System.currentTimeMillis());
 
         // temp values
-        String sender = username;
+        String sender = user.getEmail();
 
         // change when adding grid view
-        int sticker = R.drawable.speculate;
+        int sticker = R.drawable.laugh;
         Message message = new Message(sender, sticker);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -98,33 +154,54 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void listenForMessageUpdates() {
-        messageRef.addChildEventListener(new ChildEventListener() {
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // add in hashmap and update on screen
-                updateMessagesMap(snapshot);
-                recyclerAdapter.notifyItemInserted(messageList.size());
-                recyclerView.scrollToPosition(messageList.size() - 1);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long existingChildrenCount = snapshot.getChildrenCount();
+                final long[] cnt = {0};
 
-                // if sender matches user name in shared pref then
-                //      display on right (sent by this user)
-                // else
-                //      display on left (received by this user)
-            }
+                messageRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        cnt[0]++;
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d("onChildChanged", "called");
-            }
+                        updateMessagesMap(snapshot);
+                        recyclerAdapter.notifyItemInserted(messageList.size());
+                        recyclerView.scrollToPosition(messageList.size() - 1);
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                // delete from messages map and update screen
-            }
+                        if (cnt[0] == existingChildrenCount && getIntent().hasExtra("fromNotification")) {
+                            startChooseStickerActivity();
+                        } else if (cnt[0] > existingChildrenCount) {
+                            Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
+                            String msgSender = children.next().getValue().toString();
+                            int sticker = Integer.parseInt(children.next().getValue().toString());
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            if (!TextUtils.equals(msgSender, user.getEmail())) {
+                                sendNotification(sticker);
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Log.d("onChildChanged", "called");
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        // delete from messages map and update screen
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

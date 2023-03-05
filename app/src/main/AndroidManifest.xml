@@ -48,6 +48,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".ChooseStickerActivity" />
         <activity android:name=".assignment7.pokemonSearch.ChoosePokemonActivity" />
         <activity android:name=".assignment7.PokemonDetailsActivity" />
     </application>

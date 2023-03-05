@@ -1,26 +1,26 @@
 package edu.northeastern.pokedex;
 
-import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import edu.northeastern.pokedex.assignment7.pokemonSearch.ChoosePokemonActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SharedPreferences prefs;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        prefs = getDefaultSharedPreferences(getApplicationContext());
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
     }
 
     public void startPokemonChooseActivity(View view) {
@@ -28,28 +28,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startFirebaseActivity(View view) {
-        if(prefs.contains("username")) {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear();
-            editor.apply();
-            if(prefs.getLong("expiration", 0) <= (System.currentTimeMillis()/1000)) {
-                clearSharedPrefs();
-                startLoginActivity();
-            } else {
-                Toast.makeText(MainActivity.this,
-                        "Welcome " + prefs.getString("name", "") + "!",
-                        Toast.LENGTH_SHORT).show();
-                startFirebaseActivity();
-            }
-        } else {
+        if(user == null) {
             startLoginActivity();
+        } else {
+            startFirebaseActivity();
         }
-    }
-
-    private void clearSharedPrefs() {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.apply();
     }
 
     private void startLoginActivity() {
