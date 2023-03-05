@@ -96,7 +96,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         String sender = user.getEmail();
 
         // change when adding grid view
-        Message message = new Message(sender, image);
+        Message message = new Message(sender, image, user.getUid());
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/" + timestamp, message);

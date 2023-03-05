@@ -15,6 +15,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import edu.northeastern.pokedex.userRV.UserListActivity;
+
 public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -73,7 +75,8 @@ public class SignupActivity extends AppCompatActivity {
                         DatabaseReference d = userRef.child(user.getUid());
                         d.child("email").setValue(user.getEmail());
                         d.child("name").setValue(user.getDisplayName());
-                        startActivity(new Intent(SignupActivity.this, FirebaseActivity.class));
+//                        startActivity(new Intent(SignupActivity.this, FirebaseActivity.class));
+                        startActivity(new Intent(SignupActivity.this, UserListActivity.class));
                         finish();
                     } else {
                         Toast.makeText(SignupActivity.this, "Error!", Toast.LENGTH_SHORT).show();
