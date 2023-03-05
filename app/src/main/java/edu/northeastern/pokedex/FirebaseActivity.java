@@ -47,6 +47,8 @@ public class FirebaseActivity extends AppCompatActivity {
 //    private DatabaseReference stickerRef;
     private DatabaseReference sRef;
 
+    private DatabaseReference userRef;
+
     private List<Message> messageList;
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
@@ -76,6 +78,7 @@ public class FirebaseActivity extends AppCompatActivity {
 //        stickerRef = mDatabase.child("room1").child("stickers");
         sRef = mDatabase.child("stickers").child(currUid);
 
+        userRef = mDatabase.child("users");
         messageList = new ArrayList<>();
 
         listenForMessageUpdates();
@@ -98,7 +101,9 @@ public class FirebaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(FirebaseActivity.this, LoginActivity.class));
+                Intent intent = new Intent(FirebaseActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -123,12 +128,31 @@ public class FirebaseActivity extends AppCompatActivity {
         }
     }
 
-    private void sendNotification(int sticker) {
+    private void sendNotification(String uid, int sticker) {
+        userRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
+                children.next();
+                String name = children.next().getValue().toString();
+                sendNotificationToPerson(uid, name, sticker);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void sendNotificationToPerson(String uid, String name, int sticker) {
         Intent intent = new Intent(this, FirebaseActivity.class);
+        intent.putExtra("uid", uid);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
         Intent intentForReply = new Intent(this, FirebaseActivity.class);
+        intentForReply.putExtra("uid", uid);
         intentForReply.putExtra("fromNotification", true);
         intentForReply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, 0);
@@ -136,7 +160,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String channelId = "id";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.team_47_icon_foreground)
-                .setContentTitle(user.getDisplayName())
+                .setContentTitle(name)
                 .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBitmap(sticker)).bigLargeIcon(null))
                 .setLargeIcon(getBitmap(sticker))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -179,8 +203,9 @@ public class FirebaseActivity extends AppCompatActivity {
         Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
         String sender = children.next().getValue().toString();
         int sticker = Integer.parseInt(children.next().getValue().toString());
+        String uid = children.next().getValue().toString();
 
-        messageList.add(new Message(sender, sticker));
+        messageList.add(new Message(sender, sticker, uid));
     }
 
     private void listenForMessageUpdates() {
@@ -205,9 +230,10 @@ public class FirebaseActivity extends AppCompatActivity {
                             Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
                             String msgSender = children.next().getValue().toString();
                             int sticker = Integer.parseInt(children.next().getValue().toString());
+                            String senderUid = children.next().getValue().toString();
 
                             if (!TextUtils.equals(msgSender, user.getEmail())) {
-                                sendNotification(sticker);
+                                sendNotification(senderUid, sticker);
                             }
 
                             DatabaseReference ref = sRef.child(Integer.toString(sticker));
