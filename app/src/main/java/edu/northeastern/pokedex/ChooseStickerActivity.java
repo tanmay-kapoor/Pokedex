@@ -25,18 +25,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChooseStickerActivity extends AppCompatActivity {
 
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final FirebaseUser user = mAuth.getCurrentUser();
-    private final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private final DatabaseReference messageRef = mDatabase.child("room1").child("messages");
+//    private final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+//    private final DatabaseReference messageRef = mDatabase.child("room1").child("messages");
 
     private FirebaseDatabase database;
-    private FirebaseAuth auth;
-    private List<Pair<String, Drawable>> stickerList;
+    private List<Pair<Drawable, Integer>> stickerList;
     private StickerAdapter stickerAdapter;
     private RecyclerView stickerRecycler;
     @SuppressLint("MissingInflatedId")
@@ -44,57 +45,60 @@ public class ChooseStickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.sticker_recycler);
+
         getSupportActionBar().setTitle("Stickers");
         String recID = getIntent().getStringExtra("recID");
-        Log.i("RECEIVER", recID);
+
         stickerList = new ArrayList<>();
-        auth = FirebaseAuth.getInstance();
+
         database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference().child("stickers");
+
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Resources res = getResources();
-                Drawable cool = ResourcesCompat.getDrawable(res, R.drawable.cool, null);
-                Drawable annoyed = ResourcesCompat.getDrawable(res, R.drawable.annoyed, null);
-                Drawable cry = ResourcesCompat.getDrawable(res, R.drawable.cry, null);
-                Drawable smile = ResourcesCompat.getDrawable(res, R.drawable.smile, null);
-                Drawable irritated = ResourcesCompat.getDrawable(res, R.drawable.irritated, null);
-                Drawable think = ResourcesCompat.getDrawable(res, R.drawable.think, null);
-                Drawable wink = ResourcesCompat.getDrawable(res, R.drawable.wink, null);
-                Drawable surprised = ResourcesCompat.getDrawable(res, R.drawable.surprised, null);
-                Drawable sobbing = ResourcesCompat.getDrawable(res, R.drawable.sobbing, null);
-                Drawable sick = ResourcesCompat.getDrawable(res, R.drawable.sick, null);
-                Drawable money = ResourcesCompat.getDrawable(res, R.drawable.money, null);
-                Drawable monkey = ResourcesCompat.getDrawable(res, R.drawable.monkey, null);
-                Drawable liar = ResourcesCompat.getDrawable(res, R.drawable.liar, null);
-                Drawable cold = ResourcesCompat.getDrawable(res, R.drawable.cold, null);
-                Drawable eyes = ResourcesCompat.getDrawable(res, R.drawable.eyes, null);
-                Drawable king = ResourcesCompat.getDrawable(res, R.drawable.king, null);
-                Drawable queen = ResourcesCompat.getDrawable(res, R.drawable.queen, null);
-                Drawable panda = ResourcesCompat.getDrawable(res, R.drawable.panda, null);
-                Drawable flower = ResourcesCompat.getDrawable(res, R.drawable.flower, null);
-                Drawable poop = ResourcesCompat.getDrawable(res, R.drawable.poop, null);
-                stickerList.add(new Pair<>("cool", cool));
-                stickerList.add(new Pair<>("annoyed", annoyed));
-                stickerList.add(new Pair<>("cry", cry));
-                stickerList.add(new Pair<>("smile", smile));
-                stickerList.add(new Pair<>("irritated", irritated));
-                stickerList.add(new Pair<>("think", think));
-                stickerList.add(new Pair<>("wink", wink));
-                stickerList.add(new Pair<>("surprised", surprised));
-                stickerList.add(new Pair<>("sobbing", sobbing));
-                stickerList.add(new Pair<>("sick", sick));
-                stickerList.add(new Pair<>("money", money));
-                stickerList.add(new Pair<>("monkey", monkey));
-                stickerList.add(new Pair<>("liar", liar));
-                stickerList.add(new Pair<>("cold", cold));
-                stickerList.add(new Pair<>("eyes", eyes));
-                stickerList.add(new Pair<>("king", king));
-                stickerList.add(new Pair<>("queen", queen));
-                stickerList.add(new Pair<>("panda", panda));
-                stickerList.add(new Pair<>("flower", flower));
-                stickerList.add(new Pair<>("poop", poop));
+//                Drawable cool = ResourcesCompat.getDrawable(res, R.drawable.cool, null);
+//                Drawable annoyed = ResourcesCompat.getDrawable(res, R.drawable.annoyed, null);
+//                Drawable cry = ResourcesCompat.getDrawable(res, R.drawable.cry, null);
+//                Drawable smile = ResourcesCompat.getDrawable(res, R.drawable.smile, null);
+//                Drawable irritated = ResourcesCompat.getDrawable(res, R.drawable.irritated, null);
+//                Drawable think = ResourcesCompat.getDrawable(res, R.drawable.think, null);
+//                Drawable wink = ResourcesCompat.getDrawable(res, R.drawable.wink, null);
+//                Drawable surprised = ResourcesCompat.getDrawable(res, R.drawable.surprised, null);
+//                Drawable sobbing = ResourcesCompat.getDrawable(res, R.drawable.sobbing, null);
+//                Drawable sick = ResourcesCompat.getDrawable(res, R.drawable.sick, null);
+//                Drawable money = ResourcesCompat.getDrawable(res, R.drawable.money, null);
+//                Drawable monkey = ResourcesCompat.getDrawable(res, R.drawable.monkey, null);
+//                Drawable liar = ResourcesCompat.getDrawable(res, R.drawable.liar, null);
+//                Drawable cold = ResourcesCompat.getDrawable(res, R.drawable.cold, null);
+//                Drawable eyes = ResourcesCompat.getDrawable(res, R.drawable.eyes, null);
+//                Drawable king = ResourcesCompat.getDrawable(res, R.drawable.king, null);
+//                Drawable queen = ResourcesCompat.getDrawable(res, R.drawable.queen, null);
+//                Drawable panda = ResourcesCompat.getDrawable(res, R.drawable.panda, null);
+//                Drawable flower = ResourcesCompat.getDrawable(res, R.drawable.flower, null);
+//                Drawable poop = ResourcesCompat.getDrawable(res, R.drawable.poop, null);
+                stickerList.add(new Pair<>(getDrawable(R.drawable.cool), R.drawable.cool));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.annoyed), R.drawable.annoyed));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.cry), R.drawable.cry));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.smile), R.drawable.smile));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.irritated), R.drawable.irritated));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.think), R.drawable.think));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.wink), R.drawable.wink));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.surprised), R.drawable.surprised));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.sobbing), R.drawable.sobbing));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.sick), R.drawable.sick));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.money), R.drawable.money));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.monkey), R.drawable.monkey));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.liar), R.drawable.liar));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.cold), R.drawable.cold));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.eyes), R.drawable.eyes));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.king), R.drawable.king));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.queen), R.drawable.queen));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.panda), R.drawable.panda));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.flower), R.drawable.flower));
+                stickerList.add(new Pair<>(getDrawable(R.drawable.poop), R.drawable.poop));
                 System.out.println(stickerList);
                 stickerAdapter.notifyDataSetChanged();
             }
@@ -129,22 +133,5 @@ public class ChooseStickerActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-//    public void sendMessage(int image) {
-//        String timestamp = Long.toString(System.currentTimeMillis());
-//
-//        // temp values
-//        assert user != null;
-//        String sender = user.getEmail();
-//
-//        // change when adding grid view
-//        Message message = new Message(sender, image);
-//
-//        Map<String, Object> childUpdates = new HashMap<>();
-//        childUpdates.put("/" + timestamp, message);
-//        messageRef.updateChildren(childUpdates);
-//        Log.i("MSGSENDER", "shoul've got message");
-//        finish();
-////                Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
-//    }
 
 }
