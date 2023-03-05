@@ -15,14 +15,13 @@ import edu.northeastern.pokedex.userRV.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
     private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
     }
 
@@ -31,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startFirebaseActivity(View view) {
-        FirebaseAuth.getInstance().signOut();
-        user = mAuth.getCurrentUser();
         if(user == null) {
             startLoginActivity();
         } else {
