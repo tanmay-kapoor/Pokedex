@@ -12,16 +12,20 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         mAuth = FirebaseAuth.getInstance();
+        userRef = FirebaseDatabase.getInstance().getReference().child("users");
     }
 
     public void login(View view) {
@@ -48,6 +52,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
                     addNameToUserProfile(name);
+                    addUserToDb();
                 } else {
                     Toast.makeText(SignupActivity.this, "This email is in use already!", Toast.LENGTH_SHORT).show();
                 }
@@ -71,5 +76,12 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(SignupActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void addUserToDb() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        DatabaseReference d = userRef.child(user.getUid());
+        d.child("email").setValue(user.getEmail());
+        d.child("name").setValue(user.getDisplayName());
     }
 }
