@@ -3,10 +3,18 @@ package edu.northeastern.pokedex;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,6 +53,7 @@ public class FirebaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_messaging);
+        createNotificationChannel();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -56,8 +65,54 @@ public class FirebaseActivity extends AppCompatActivity {
         init(savedInstanceState);
 
         Button chooseStickerBtn = findViewById(R.id.chooseBtn);
-        chooseStickerBtn.setOnClickListener(view -> startActivity(new Intent(FirebaseActivity.this, ChooseStickerActivity.class)));
-//        chooseStickerBtn.setOnClickListener(view -> sendMessage(view));
+        chooseStickerBtn.setOnClickListener(view -> startChooseStickerActivity());
+    }
+
+    private void startChooseStickerActivity() {
+        startActivity(new Intent(FirebaseActivity.this, ChooseStickerActivity.class));
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "name";
+            String description = "description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("id", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void sendNotification(int sticker) {
+        Intent intent = new Intent(this, FirebaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
+        Intent intentForReply = new Intent(this, FirebaseActivity.class);
+        intentForReply.putExtra("fromNotification", true);
+        intentForReply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, 0);
+
+        String channelId = "id";
+        NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.team_47_icon_foreground)
+                .setContentTitle(user.getDisplayName())
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBitmap(sticker)).bigLargeIcon(null))
+                .setLargeIcon(getBitmap(sticker))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .addAction(R.drawable.team_47_icon_foreground, "Reply", checkIntent)
+                .setContentIntent(pIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(0, notifyBuild.build());
+    }
+
+    private Bitmap getBitmap(int sticker) {
+        return BitmapFactory.decodeResource(getResources(), sticker);
     }
 
     private void init(Bundle savedInstanceState) {
@@ -114,12 +169,15 @@ public class FirebaseActivity extends AppCompatActivity {
                         recyclerAdapter.notifyItemInserted(messageList.size());
                         recyclerView.scrollToPosition(messageList.size() - 1);
 
-                        if (cnt[0] > existingChildrenCount) {
-                            String msgSender = snapshot.getChildren().iterator().next().getValue().toString();
-                            if (TextUtils.equals(msgSender, user.getEmail())) {
-                                Toast.makeText(FirebaseActivity.this, "send notif to others", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(FirebaseActivity.this, "you receive notif", Toast.LENGTH_SHORT).show();
+                        if (cnt[0] == existingChildrenCount && getIntent().hasExtra("fromNotification")) {
+                            startChooseStickerActivity();
+                        } else if (cnt[0] > existingChildrenCount) {
+                            Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
+                            String msgSender = children.next().getValue().toString();
+                            int sticker = Integer.parseInt(children.next().getValue().toString());
+
+                            if (!TextUtils.equals(msgSender, user.getEmail())) {
+                                sendNotification(sticker);
                             }
                         }
                     }
