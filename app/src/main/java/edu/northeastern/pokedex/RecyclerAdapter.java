@@ -43,9 +43,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.context = context;
     }
 
-    public void setOnItemClickListener(ItemClickListener listener) {
-        this.listener = listener;
-    }
+//    public void setOnItemClickListener(ItemClickListener listener) {
+//        this.listener = listener;
+//    }
 
 
     @NonNull
@@ -65,6 +65,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messageList.get(position);
+        if(holder.getClass() == ReceiverViewHolder.class) {
+            ReceiverViewHolder receiveHolder =  (ReceiverViewHolder) holder;
+            Drawable image = AppCompatResources.getDrawable(context, R.drawable.laugh);
+            receiveHolder.sticker.setImageDrawable(image);
+        } else {
+            SenderViewHolder senderHolder = (SenderViewHolder) holder;
+            Drawable image = AppCompatResources.getDrawable(context, R.drawable.cry);
+            senderHolder.sticker.setImageDrawable(image);
+        }
     }
 
     @Override
@@ -84,30 +93,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     static class ReceiverViewHolder extends RecyclerView.ViewHolder {
-        ImageView receiverImage;
+        ImageView sticker;
         TextView receiverDate;
         TextView receiverTime;
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            receiverImage = itemView.findViewById(R.id.receiver_image);
-            receiverDate = itemView.findViewById(R.id.receiver_date);
-            receiverTime = itemView.findViewById(R.id.receiver_time);
+            sticker = itemView.findViewById(R.id.receiver_image);
+//            receiverDate = itemView.findViewById(R.id.receiver_date);
+//            receiverTime = itemView.findViewById(R.id.receiver_time);
         }
     }
 
     static class SenderViewHolder extends RecyclerView.ViewHolder {
-        ImageView senderImage;
+        ImageView sticker;
         TextView senderDate;
         TextView senderTime;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            senderImage = itemView.findViewById(R.id.sender_image);
-            senderDate = itemView.findViewById(R.id.sender_date);
-            senderTime = itemView.findViewById(R.id.sender_time);
+            sticker = itemView.findViewById(R.id.sender_image);
+//            senderDate = itemView.findViewById(R.id.sender_date);
+//            senderTime = itemView.findViewById(R.id.sender_time);
         }
     }
 }
