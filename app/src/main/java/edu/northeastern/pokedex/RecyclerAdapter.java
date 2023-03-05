@@ -98,8 +98,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
 
             sticker = itemView.findViewById(R.id.receiver_image);
-//            receiverDate = itemView.findViewById(R.id.receiver_date);
-//            receiverTime = itemView.findViewById(R.id.receiver_time);
+            receiverDate = itemView.findViewById(R.id.receiver_date);
+            receiverTime = itemView.findViewById(R.id.receiver_time);
         }
     }
 
