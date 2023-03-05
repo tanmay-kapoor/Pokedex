@@ -59,6 +59,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
                     String key = dataSnapshot.getKey().toString();
                     String val = dataSnapshot.getValue().toString();
                     stickerList.add(new Pair<>(key, val));
+                    System.out.println(stickerList);
                 }
                 stickerAdapter.notifyDataSetChanged();
             }
@@ -72,36 +73,24 @@ public class ChooseStickerActivity extends AppCompatActivity {
         stickerRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         stickerAdapter = new StickerAdapter(this, stickerList, recID);
         stickerRecycler.setAdapter(stickerAdapter);
-
-//        LinearLayout ll = findViewById(R.id.LL);
-//        ImageView iv0 = findViewById(R.id.iv0);
-//        iv0.setOnClickListener(view -> sendMessage(R.drawable.smile));
-//        ImageView iv1 = findViewById(R.id.iv1);
-//        iv1.setOnClickListener(view -> sendMessage(R.drawable.laugh));
-//        ImageView iv2 = findViewById(R.id.iv2);
-//        iv2.setOnClickListener(view -> sendMessage(R.drawable.dead_laugh));
-//        ImageView iv3 = findViewById(R.id.iv3);
-//        iv3.setOnClickListener(view -> sendMessage(R.drawable.battered));
-//        ImageView iv4 = findViewById(R.id.iv4);
-//        iv4.setOnClickListener(view -> sendMessage(R.drawable.speculate));
     };
 
-    public void sendMessage(int image) {
-        String timestamp = Long.toString(System.currentTimeMillis());
-
-        // temp values
-        assert user != null;
-        String sender = user.getEmail();
-
-        // change when adding grid view
-        Message message = new Message(sender, image);
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/" + timestamp, message);
-        messageRef.updateChildren(childUpdates);
-        Log.i("MSGSENDER", "shoul've got message");
-        finish();
-//                Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
-    }
+//    public void sendMessage(int image) {
+//        String timestamp = Long.toString(System.currentTimeMillis());
+//
+//        // temp values
+//        assert user != null;
+//        String sender = user.getEmail();
+//
+//        // change when adding grid view
+//        Message message = new Message(sender, image);
+//
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put("/" + timestamp, message);
+//        messageRef.updateChildren(childUpdates);
+//        Log.i("MSGSENDER", "shoul've got message");
+//        finish();
+////                Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
+//    }
 
 }

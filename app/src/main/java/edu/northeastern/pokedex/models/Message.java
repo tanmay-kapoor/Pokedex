@@ -1,8 +1,8 @@
 package edu.northeastern.pokedex.models;
 
 public class Message {
-    private final String sender;
-    private final int sticker;
+    private String sender;
+    private int sticker;
 
     public Message(String sender, int sticker) {
         this.sender = sender;
@@ -16,4 +16,13 @@ public class Message {
     public int getSticker() {
         return this.sticker;
     }
+
+//    public void setSticker(int sticker) {
+//        this.sticker = sticker;
+//    }
+//
+//    public void setSender(String sender) {
+//        this.sender = sender;
+//    }
+
 }
