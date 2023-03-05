@@ -27,7 +27,8 @@ import edu.northeastern.pokedex.models.Message;
 
 public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHolder> {
     private static Context context;
-    private List<Pair<String, Drawable>> mData;
+    private List<Pair<Drawable, Integer>> stickerList;
+    Map<Drawable, Integer> stickerMap;
     private FirebaseDatabase database;
     private FirebaseAuth auth;
     private String senderId, receiverId;
@@ -38,9 +39,9 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
     private static DatabaseReference messageRef;
     static String key;
 
-    public StickerAdapter(Context context, List<Pair<String, Drawable>> mData, String receiverId) {
+    public StickerAdapter(Context context, List<Pair<Drawable, Integer>> stickerList, String receiverId) {
         this.context = context;
-        this.mData = mData;
+        this.stickerList = stickerList;
         this.senderId = user.getUid();
         this.receiverId = receiverId;
 
@@ -61,18 +62,19 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Drawable s = mData.get(position).second;
-        String emojiName = mData.get(position).first;
+        Drawable s = stickerList.get(position).first;
+        holder.image = stickerList.get(position).second;
         holder.mImage.setImageDrawable(s);
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return stickerList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImage;
+        int image;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -80,7 +82,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
             Drawable drawable = mImage.getDrawable();
             mImage.setOnClickListener(view -> {
                 Log.i("CLICKED", "ITEM CLICKED");
-                sendMessage(R.drawable.cold);
+                sendMessage(image);
             });
         }
 
