@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.northeastern.pokedex.FirebaseActivity;
 import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.models.User;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder{
 //    public String email;
