@@ -6,6 +6,21 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/sender_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Sender Name"
+        android:textAlignment="textEnd"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/sender_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +58,7 @@
         android:contentDescription="@string/ImageSent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sender_name"
         app:srcCompat="@drawable/battered" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

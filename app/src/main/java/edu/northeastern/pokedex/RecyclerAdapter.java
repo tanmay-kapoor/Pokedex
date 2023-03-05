@@ -70,6 +70,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             SenderViewHolder senderHolder = (SenderViewHolder) holder;
             Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             senderHolder.sticker.setImageDrawable(image);
+            senderHolder.senderName.setText(user.getDisplayName());
         }
     }
 
@@ -98,13 +99,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
 
             sticker = itemView.findViewById(R.id.receiver_image);
-//            receiverDate = itemView.findViewById(R.id.receiver_date);
-//            receiverTime = itemView.findViewById(R.id.receiver_time);
+            receiverDate = itemView.findViewById(R.id.receiver_date);
+            receiverTime = itemView.findViewById(R.id.receiver_time);
         }
     }
 
     static class SenderViewHolder extends RecyclerView.ViewHolder {
         ImageView sticker;
+        TextView senderName;
         TextView senderDate;
         TextView senderTime;
 
@@ -112,6 +114,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
 
             sticker = itemView.findViewById(R.id.sender_image);
+            senderName = itemView.findViewById(R.id.sender_name);
 //            senderDate = itemView.findViewById(R.id.sender_date);
 //            senderTime = itemView.findViewById(R.id.sender_time);
         }
