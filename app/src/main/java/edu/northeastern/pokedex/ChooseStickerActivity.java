@@ -59,26 +59,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Resources res = getResources();
-//                Drawable cool = ResourcesCompat.getDrawable(res, R.drawable.cool, null);
-//                Drawable annoyed = ResourcesCompat.getDrawable(res, R.drawable.annoyed, null);
-//                Drawable cry = ResourcesCompat.getDrawable(res, R.drawable.cry, null);
-//                Drawable smile = ResourcesCompat.getDrawable(res, R.drawable.smile, null);
-//                Drawable irritated = ResourcesCompat.getDrawable(res, R.drawable.irritated, null);
-//                Drawable think = ResourcesCompat.getDrawable(res, R.drawable.think, null);
-//                Drawable wink = ResourcesCompat.getDrawable(res, R.drawable.wink, null);
-//                Drawable surprised = ResourcesCompat.getDrawable(res, R.drawable.surprised, null);
-//                Drawable sobbing = ResourcesCompat.getDrawable(res, R.drawable.sobbing, null);
-//                Drawable sick = ResourcesCompat.getDrawable(res, R.drawable.sick, null);
-//                Drawable money = ResourcesCompat.getDrawable(res, R.drawable.money, null);
-//                Drawable monkey = ResourcesCompat.getDrawable(res, R.drawable.monkey, null);
-//                Drawable liar = ResourcesCompat.getDrawable(res, R.drawable.liar, null);
-//                Drawable cold = ResourcesCompat.getDrawable(res, R.drawable.cold, null);
-//                Drawable eyes = ResourcesCompat.getDrawable(res, R.drawable.eyes, null);
-//                Drawable king = ResourcesCompat.getDrawable(res, R.drawable.king, null);
-//                Drawable queen = ResourcesCompat.getDrawable(res, R.drawable.queen, null);
-//                Drawable panda = ResourcesCompat.getDrawable(res, R.drawable.panda, null);
-//                Drawable flower = ResourcesCompat.getDrawable(res, R.drawable.flower, null);
-//                Drawable poop = ResourcesCompat.getDrawable(res, R.drawable.poop, null);
+
                 stickerList.add(new Pair<>(getDrawable(R.drawable.cool), R.drawable.cool));
                 stickerList.add(new Pair<>(getDrawable(R.drawable.annoyed), R.drawable.annoyed));
                 stickerList.add(new Pair<>(getDrawable(R.drawable.cry), R.drawable.cry));
@@ -127,7 +108,9 @@ public class ChooseStickerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ChooseStickerActivity.this, LoginActivity.class));
+                Intent intent = new Intent(ChooseStickerActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

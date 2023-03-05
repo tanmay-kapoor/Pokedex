@@ -1,5 +1,6 @@
 package edu.northeastern.pokedex;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -40,8 +41,9 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
     static String key;
 
     public StickerAdapter(Context context, List<Pair<Drawable, Integer>> stickerList, String receiverId) {
-        this.context = context;
+        StickerAdapter.context = context;
         this.stickerList = stickerList;
+        assert user != null;
         this.senderId = user.getUid();
         this.receiverId = receiverId;
 
@@ -63,8 +65,8 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Drawable s = stickerList.get(position).first;
-        holder.image = stickerList.get(position).second;
         holder.mImage.setImageDrawable(s);
+        holder.imageInt = stickerList.get(position).second;
     }
 
     @Override
@@ -74,15 +76,13 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImage;
-        int image;
+        int imageInt;
 
         ViewHolder(View itemView) {
             super(itemView);
             mImage = itemView.findViewById(R.id.sticker);
-            Drawable drawable = mImage.getDrawable();
             mImage.setOnClickListener(view -> {
-                Log.i("CLICKED", "ITEM CLICKED");
-                sendMessage(image);
+                sendMessage(imageInt);
             });
         }
 
@@ -96,7 +96,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         String sender = user.getEmail();
 
         // change when adding grid view
-        Message message = new Message(sender, image);
+        Message message = new Message(sender, image, user.getUid());
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/" + timestamp, message);

@@ -3,6 +3,7 @@ package edu.northeastern.pokedex;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,8 @@ import edu.northeastern.pokedex.models.Message;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Message> messageList;
-    private ItemClickListener listener;
     private final Context context;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private final FirebaseUser user = mAuth.getCurrentUser();
     private static final int SEND = 1;
     private static final int RECEIVE = 2;
     ImageView sticker;
@@ -65,10 +64,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(holder.getClass() == ReceiverViewHolder.class) {
             ReceiverViewHolder receiveHolder =  (ReceiverViewHolder) holder;
             Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
+            Log.i("RECEIVED", String.valueOf(message.getSticker()));
             receiveHolder.sticker.setImageDrawable(image);
         } else {
             SenderViewHolder senderHolder = (SenderViewHolder) holder;
             Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
+            Log.i("SENT", String.valueOf(message.getSticker()));
             senderHolder.sticker.setImageDrawable(image);
             senderHolder.senderName.setText(user.getDisplayName());
         }
