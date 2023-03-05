@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/teamNameTV"
+        android:layout_width="99dp"
+        android:layout_height="48dp"
+        android:text="Team 47"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <TextView
+        android:id="@+id/teamMember1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grishma Alshi"
+        app:layout_constraintBottom_toTopOf="@+id/teamMember2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamNameTV" />
+
+    <TextView
+        android:id="@+id/teamMember2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parth Parikh"
+        app:layout_constraintBottom_toTopOf="@+id/teamMember3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamMember1" />
+
+    <TextView
+        android:id="@+id/teamMember3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Supratik Chaudhuri"
+        app:layout_constraintBottom_toTopOf="@+id/teamMember4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamMember2" />
+
+    <TextView
+        android:id="@+id/teamMember4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanmay Kapoor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamMember3" />
+</androidx.constraintlayout.widget.ConstraintLayout>
