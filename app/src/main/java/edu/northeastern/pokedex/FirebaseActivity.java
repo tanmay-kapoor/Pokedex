@@ -12,6 +12,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -84,35 +86,33 @@ public class FirebaseActivity extends AppCompatActivity {
         }
     }
 
-    private void sendNotification() {
-        // Prepare intent which is triggered if the
-        // notification is selected
+    private void sendNotification(int sticker) {
         Intent intent = new Intent(this, FirebaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
-        Intent intent2 = new Intent(this, FirebaseActivity.class);
-        intent2.putExtra("fromNotification", true);
-        PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent2, 0);
+        Intent intentForReply = new Intent(this, FirebaseActivity.class);
+        intentForReply.putExtra("fromNotification", true);
+        intentForReply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, 0);
 
-
-        // Build notification
-        // Need to define a channel ID after Android Oreo
         String channelId = "id";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
-                //"Notification icons must be entirely white."
                 .setSmallIcon(R.drawable.team_47_icon_foreground)
                 .setContentTitle(user.getDisplayName())
-                .setContentText("Sticker")
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBitmap(sticker)).bigLargeIcon(null))
+                .setLargeIcon(getBitmap(sticker))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                // hide the notification after its selected
                 .setAutoCancel(true)
-                .addAction(R.drawable.laugh, "Reply", checkIntent)
+                .addAction(R.drawable.team_47_icon_foreground, "Reply", checkIntent)
                 .setContentIntent(pIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        // // notificationId is a unique int for each notification that you must define
         notificationManager.notify(0, notifyBuild.build());
-//        chooseStickerBtn.setOnClickListener(view -> sendMessage(view));
+    }
+
+    private Bitmap getBitmap(int sticker) {
+        return BitmapFactory.decodeResource(getResources(), sticker);
     }
 
     private void init(Bundle savedInstanceState) {
@@ -169,15 +169,15 @@ public class FirebaseActivity extends AppCompatActivity {
                         recyclerAdapter.notifyItemInserted(messageList.size());
                         recyclerView.scrollToPosition(messageList.size() - 1);
 
-                        if(cnt[0] == existingChildrenCount && getIntent().hasExtra("fromNotification")) {
+                        if (cnt[0] == existingChildrenCount && getIntent().hasExtra("fromNotification")) {
                             startChooseStickerActivity();
                         } else if (cnt[0] > existingChildrenCount) {
-                            String msgSender = snapshot.getChildren().iterator().next().getValue().toString();
-                            if (TextUtils.equals(msgSender, user.getEmail())) {
-                                Toast.makeText(FirebaseActivity.this, "send notif to others", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(FirebaseActivity.this, "you receive notif", Toast.LENGTH_SHORT).show();
-                                sendNotification();
+                            Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
+                            String msgSender = children.next().getValue().toString();
+                            int sticker = Integer.parseInt(children.next().getValue().toString());
+
+                            if (!TextUtils.equals(msgSender, user.getEmail())) {
+                                sendNotification(sticker);
                             }
                         }
                     }
