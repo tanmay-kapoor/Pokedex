@@ -35,9 +35,9 @@ public class UserListActivity extends AppCompatActivity {
         setContentView(R.layout.user_list);
 
         userList = new ArrayList<>();
-        init();
+
         getAllUsers();
-        System.out.println(userList);
+        init();
     }
 
     private void init() {
@@ -65,8 +65,7 @@ public class UserListActivity extends AppCompatActivity {
                     Log.i("User", email);
                     String name = children.next().getValue().toString();
                     userList.add(new User(email, name));
-                    System.out.println(userList);
-                    recyclerAdapter.notifyItemChanged(userList.size()-1);
+                    recyclerAdapter.notifyItemInserted(userList.size()-1);
                 }
             }
 
