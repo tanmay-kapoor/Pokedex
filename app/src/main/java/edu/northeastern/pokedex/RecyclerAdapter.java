@@ -67,11 +67,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Message message = messageList.get(position);
         if(holder.getClass() == ReceiverViewHolder.class) {
             ReceiverViewHolder receiveHolder =  (ReceiverViewHolder) holder;
-            Drawable image = AppCompatResources.getDrawable(context, R.drawable.laugh);
+            Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             receiveHolder.sticker.setImageDrawable(image);
         } else {
             SenderViewHolder senderHolder = (SenderViewHolder) holder;
-            Drawable image = AppCompatResources.getDrawable(context, R.drawable.cry);
+            Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             senderHolder.sticker.setImageDrawable(image);
         }
     }
