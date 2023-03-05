@@ -1,11 +1,19 @@
 package edu.northeastern.pokedex.models;
 
 public class User {
-    private final String username;
+    private final String email;
     private final String name;
 
-    public User(String username, String name) {
-        this.username = username;
+    public User(String email, String name) {
+        this.email = email;
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
     }
 }
