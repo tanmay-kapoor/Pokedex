@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,12 +92,13 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
     public static void sendMessage(int image) {
 
         String timestamp = Long.toString(System.currentTimeMillis());
+        Date timestampObject = new Date(System.currentTimeMillis());
         // temp values
         assert user != null;
         String sender = user.getEmail();
 
         // change when adding grid view
-        Message message = new Message(sender, image, user.getUid());
+        Message message = new Message(sender, image, user.getUid(), timestampObject);
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/" + timestamp, message);

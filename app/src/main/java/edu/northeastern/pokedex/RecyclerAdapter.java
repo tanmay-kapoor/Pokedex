@@ -68,12 +68,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Log.i("RECEIVED", String.valueOf(message.getSticker()));
             receiveHolder.sticker.setImageDrawable(image);
             receiveHolder.receiverName.setText(message.getSender());
+            receiveHolder.receiverDate.setText(message.getDate());
+            receiveHolder.receiverTime.setText(message.getTime());
         } else {
             SenderViewHolder senderHolder = (SenderViewHolder) holder;
             Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             Log.i("SENT", String.valueOf(message.getSticker()));
             senderHolder.sticker.setImageDrawable(image);
             senderHolder.senderName.setText(user.getDisplayName());
+            senderHolder.senderDate.setText(message.getDate());
+            senderHolder.senderTime.setText(message.getTime());
         }
     }
 
@@ -119,8 +123,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             sticker = itemView.findViewById(R.id.sender_image);
             senderName = itemView.findViewById(R.id.sender_name);
-//            senderDate = itemView.findViewById(R.id.sender_date);
-//            senderTime = itemView.findViewById(R.id.sender_time);
+            senderDate = itemView.findViewById(R.id.sender_date);
+            senderTime = itemView.findViewById(R.id.sender_time);
         }
     }
 }
