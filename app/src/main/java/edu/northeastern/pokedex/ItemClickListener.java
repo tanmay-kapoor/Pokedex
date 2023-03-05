@@ -1,4 +1,4 @@
-package edu.northeastern.pokedex.messaging;
+package edu.northeastern.pokedex;
 
 public interface ItemClickListener {
     void onItemClick(int position);

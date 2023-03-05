@@ -47,7 +47,6 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         String s = mData.get(position).second;
         String emojiName = mData.get(position).first;
         Uri uri = Uri.parse(s);
-        Log.e("Getting URI", "" + uri);
         Picasso.get().load(uri).into(holder.mImage);
     }
 
