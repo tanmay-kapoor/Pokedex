@@ -54,6 +54,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
         setContentView(R.layout.sticker_recycler);
         getSupportActionBar().setTitle("Stickers");
         String recID = getIntent().getStringExtra("recID");
+        Log.i("RECEIVER", recID);
         stickerList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
