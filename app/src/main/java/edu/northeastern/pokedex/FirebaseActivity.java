@@ -230,6 +230,7 @@ public class FirebaseActivity extends AppCompatActivity {
         String uid = children.next().getValue().toString();
 
         messageList.add(new Message(sender, sticker, uid, timestamp));
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void listenForMessageUpdates() {
