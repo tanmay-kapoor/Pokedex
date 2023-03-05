@@ -2,9 +2,7 @@ package edu.northeastern.pokedex;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +26,7 @@ import edu.northeastern.pokedex.models.Message;
 
 
 public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHolder> {
-    private Context context;
+    private static Context context;
     private List<Pair<String, Drawable>> mData;
     private FirebaseDatabase database;
     private FirebaseAuth auth;
@@ -48,7 +45,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         this.receiverId = receiverId;
 
         key = senderId.compareTo(receiverId) <= 0 ? senderId + "+" + receiverId : receiverId + "+" + senderId;
-        messageRef = mDatabase.child("messages").child(key);
+        messageRef = mDatabase.child("messages");
     }
 
     @NonNull
@@ -83,7 +80,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
             Drawable drawable = mImage.getDrawable();
             mImage.setOnClickListener(view -> {
                 Log.i("CLICKED", "ITEM CLICKED");
-//                sendMessage(R.drawable.cold);
+                sendMessage(R.drawable.cold);
             });
         }
 
@@ -103,7 +100,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         childUpdates.put("/" + key, message);
         messageRef.updateChildren(childUpdates);
         Log.i("MSG SENDER", "should've got message");
-//        (Activity)context).finish();
+        ((Activity)context).finish();
 //        Toast.makeText(ChooseStickerActivity.this, "msg sent", Toast.LENGTH_LONG).show();
     }
 

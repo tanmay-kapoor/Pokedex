@@ -161,7 +161,7 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void updateMessagesMap(DataSnapshot snapshot) {
-        long timestamp = Long.parseLong(snapshot.getKey());
+//        long timestamp = Long.parseLong(snapshot.getKey());
         Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
         String sender = children.next().getValue().toString();
         int sticker = Integer.parseInt(children.next().getValue().toString());
