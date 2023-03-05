@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userListRV"
+        android:id="@+id/stickerList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"

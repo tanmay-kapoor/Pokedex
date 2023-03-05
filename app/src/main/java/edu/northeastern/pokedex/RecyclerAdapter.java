@@ -2,13 +2,11 @@ package edu.northeastern.pokedex;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,14 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.squareup.picasso.Picasso;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import edu.northeastern.pokedex.models.Message;
 
@@ -106,9 +98,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             receiverName = itemView.findViewById(R.id.receiver_name);
-            sticker = itemView.findViewById(R.id.receiver_image);
-            receiverDate = itemView.findViewById(R.id.receiver_date);
-            receiverTime = itemView.findViewById(R.id.receiver_time);
+            sticker = itemView.findViewById(R.id.sticker_image);
+            receiverDate = itemView.findViewById(R.id.sticker_count);
+            receiverTime = itemView.findViewById(R.id.sticker_name);
         }
     }
 

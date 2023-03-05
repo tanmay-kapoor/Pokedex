@@ -2,12 +2,9 @@ package edu.northeastern.pokedex.userRV;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,11 +23,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.northeastern.pokedex.FirebaseActivity;
 import edu.northeastern.pokedex.MainActivity;
 import edu.northeastern.pokedex.R;
 import edu.northeastern.pokedex.StickerStatsActivity;
-import edu.northeastern.pokedex.assignment7.models.TempPokemon;
 import edu.northeastern.pokedex.models.ParcelableUser;
 import edu.northeastern.pokedex.models.User;
 
@@ -100,7 +95,7 @@ public class UserListActivity extends AppCompatActivity {
 
     private void recyclerView() {
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        recyclerView = findViewById(R.id.userListRV);
+        recyclerView = findViewById(R.id.stickerList);
         recyclerView.setHasFixedSize(true);
 
         recyclerAdapter = new RecyclerAdapter(userList, getApplicationContext());
