@@ -13,9 +13,9 @@ import edu.northeastern.pokedex.R;
 import edu.northeastern.pokedex.models.User;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder{
+    public String email;
     private Context context;
     private Intent intent;
-    User user;
     TextView name;
 
     public RecyclerHolder(View itemView, final ItemClickListener listener) {
@@ -27,7 +27,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
         userItem.setOnClickListener(view -> {
             context = itemView.getContext();
             intent = new Intent(context, FirebaseActivity.class);
-            intent.putExtra("email", user.getEmail());
+            intent.putExtra("email", email);
             context.startActivity(intent);
         });
     }

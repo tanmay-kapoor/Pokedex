@@ -39,6 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         User user = userList.get(position);
         holder.name.setText(user.getName());
+        holder.email = user.getEmail();
         Log.i("SETTING NAME", user.getName());
     }
 
