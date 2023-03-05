@@ -1,12 +1,11 @@
 package edu.northeastern.pokedex;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,12 +27,20 @@ public class ChooseStickerActivity extends AppCompatActivity {
     private final DatabaseReference messageRef = mDatabase.child("room1").child("messages");
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.sticker_popup);
 
         LinearLayout ll = findViewById(R.id.LL);
+
+        // dynamically send drawables
+//        for(int i = 0; i < ll.getChildCount(); i++) {
+//            View v = ll.getChildAt(i);
+//            int id = v.getId();
+//            ImageView iv = findViewById(id);
+//        }
         ImageView iv0 = findViewById(R.id.iv0);
         iv0.setOnClickListener(view -> sendMessage(R.drawable.smile));
         ImageView iv1 = findViewById(R.id.iv1);
@@ -44,16 +51,16 @@ public class ChooseStickerActivity extends AppCompatActivity {
         iv3.setOnClickListener(view -> sendMessage(R.drawable.battered));
         ImageView iv4 = findViewById(R.id.iv4);
         iv4.setOnClickListener(view -> sendMessage(R.drawable.speculate));
+
+
     };
 
     public void sendMessage(int image) {
         String timestamp = Long.toString(System.currentTimeMillis());
 
-        // temp values
         assert user != null;
         String sender = user.getEmail();
 
-        // change when adding grid view
         Message message = new Message(sender, image);
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -61,7 +68,6 @@ public class ChooseStickerActivity extends AppCompatActivity {
         messageRef.updateChildren(childUpdates);
         Log.i("MSGSENDER", "shoul've got message");
         finish();
-//                Toast.makeText(FirebaseActivity.this, "msg sent", Toast.LENGTH_LONG).show();
     }
 
 }
