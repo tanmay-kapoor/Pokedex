@@ -1,6 +1,8 @@
 package edu.northeastern.pokedex;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +42,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private FirebaseAuth auth;
-    private List<Pair<String,String>> stickerList;
+    private List<Pair<String, Drawable>> stickerList;
     private StickerAdapter stickerAdapter;
     private RecyclerView stickerRecycler;
     @SuppressLint("MissingInflatedId")
@@ -55,12 +58,18 @@ public class ChooseStickerActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String key = dataSnapshot.getKey().toString();
-                    String val = dataSnapshot.getValue().toString();
-                    stickerList.add(new Pair<>(key, val));
-                    System.out.println(stickerList);
-                }
+                Resources res = getResources();
+                Drawable battered = ResourcesCompat.getDrawable(res, R.drawable.battered, null);
+                Drawable dead_laugh = ResourcesCompat.getDrawable(res, R.drawable.dead_laugh, null);
+                Drawable laugh = ResourcesCompat.getDrawable(res, R.drawable.laugh, null);
+                Drawable smile = ResourcesCompat.getDrawable(res, R.drawable.smile, null);
+                Drawable speculate = ResourcesCompat.getDrawable(res, R.drawable.speculate, null);
+                stickerList.add(new Pair<String, Drawable>("battered", battered));
+                stickerList.add(new Pair<String, Drawable>("battered", dead_laugh));
+                stickerList.add(new Pair<String, Drawable>("battered", laugh));
+                stickerList.add(new Pair<String, Drawable>("battered", smile));
+                stickerList.add(new Pair<String, Drawable>("battered", speculate));
+                System.out.println(stickerList);
                 stickerAdapter.notifyDataSetChanged();
             }
 
