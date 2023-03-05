@@ -49,7 +49,6 @@ public class StickerStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_stats);
         stickerList = new ArrayList<>();
-        stickerList.add(new Sticker("Test", 1, null));
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
