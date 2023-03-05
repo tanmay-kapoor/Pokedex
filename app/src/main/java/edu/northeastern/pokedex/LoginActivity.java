@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.northeastern.pokedex.userRV.UserListActivity;
+
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
@@ -42,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(LoginActivity.this, FirebaseActivity.class));
+//                    startActivity(new Intent(LoginActivity.this, FirebaseActivity.class));
+                    startActivity(new Intent(LoginActivity.this, UserListActivity.class));
                     finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();

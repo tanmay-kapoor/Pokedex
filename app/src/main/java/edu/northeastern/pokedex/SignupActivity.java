@@ -53,7 +53,6 @@ public class SignupActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
                     addNameToUserProfile(name);
-                    addUserToDb();
                 } else {
                     Toast.makeText(SignupActivity.this, "This email is in use already!", Toast.LENGTH_SHORT).show();
                 }
@@ -71,18 +70,14 @@ public class SignupActivity extends AppCompatActivity {
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        DatabaseReference d = userRef.child(user.getUid());
+                        d.child("email").setValue(user.getEmail());
+                        d.child("name").setValue(user.getDisplayName());
                         startActivity(new Intent(SignupActivity.this, FirebaseActivity.class));
                         finish();
                     } else {
                         Toast.makeText(SignupActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void addUserToDb() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        DatabaseReference d = userRef.child(user.getUid());
-        d.child("email").setValue(user.getEmail());
-        d.child("name").setValue(user.getDisplayName());
     }
 }

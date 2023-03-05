@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -14,13 +15,14 @@ import edu.northeastern.pokedex.userRV.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
     private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
     }
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startFirebaseActivity(View view) {
+        FirebaseAuth.getInstance().signOut();
+        user = mAuth.getCurrentUser();
         if(user == null) {
             startLoginActivity();
         } else {
