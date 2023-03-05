@@ -45,7 +45,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         this.receiverId = receiverId;
 
         key = senderId.compareTo(receiverId) <= 0 ? senderId + "+" + receiverId : receiverId + "+" + senderId;
-        messageRef = mDatabase.child("messages");
+        messageRef = mDatabase.child("messages").child(key);
     }
 
     @NonNull
@@ -97,7 +97,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         Message message = new Message(sender, image);
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/" + key, message);
+        childUpdates.put("/" + timestamp, message);
         messageRef.updateChildren(childUpdates);
         Log.i("MSG SENDER", "should've got message");
         ((Activity)context).finish();
