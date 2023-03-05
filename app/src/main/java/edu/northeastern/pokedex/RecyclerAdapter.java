@@ -33,6 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final List<Message> messageList;
     private final Context context;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
     private static final int SEND = 1;
     private static final int RECEIVE = 2;
     ImageView sticker;
