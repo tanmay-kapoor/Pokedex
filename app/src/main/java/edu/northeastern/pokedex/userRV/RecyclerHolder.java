@@ -3,6 +3,7 @@ package edu.northeastern.pokedex.userRV;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -19,10 +20,13 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
     private Intent intent;
     TextView name;
 
+    ImageView dpImage;
+
     public RecyclerHolder(View itemView) {
         super(itemView);
 
         name = itemView.findViewById(R.id.userNameTV);
+        dpImage = itemView.findViewById(R.id.userDP);
         CardView userItem = itemView.findViewById(R.id.userCV);
 
         userItem.setOnClickListener(view -> {
