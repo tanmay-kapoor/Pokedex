@@ -223,7 +223,7 @@ public class FirebaseActivity extends AppCompatActivity {
                 long existingChildrenCount = snapshot.getChildrenCount();
                 final long[] cnt = {0};
 
-                mRef.addChildEventListener(new ChildEventListener() {
+                mRef.orderByKey().addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         cnt[0]++;
