@@ -2,10 +2,13 @@ package edu.northeastern.pokedex.messaging;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Iterator;
 import java.util.Map;
 
+import edu.northeastern.pokedex.ChooseStickerActivity;
+import edu.northeastern.pokedex.MainActivity;
+import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.assignment7.pokemonSearch.ChoosePokemonActivity;
 import edu.northeastern.pokedex.models.Message;
 
 public class MessageActivity extends AppCompatActivity {
@@ -30,10 +37,14 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle saveInstances) {
         super.onCreate(saveInstances);
+        setContentView(R.layout.actvity_messaging);
 
         prefs = getDefaultSharedPreferences(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
+    public void openStickers(View view) {
+        startActivity(new Intent(MessageActivity.this, ChooseStickerActivity.class));
+    }
 
 }
