@@ -33,7 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -199,13 +202,13 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void updateMessagesMap(DataSnapshot snapshot) {
-//        long timestamp = Long.parseLong(snapshot.getKey());
+        Date timestamp = new Date(Long.parseLong(snapshot.getKey()));
         Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
         String sender = children.next().getValue().toString();
         int sticker = Integer.parseInt(children.next().getValue().toString());
         String uid = children.next().getValue().toString();
 
-        messageList.add(new Message(sender, sticker, uid));
+        messageList.add(new Message(sender, sticker, uid, timestamp));
     }
 
     private void listenForMessageUpdates() {
