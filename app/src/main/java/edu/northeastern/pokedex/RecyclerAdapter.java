@@ -67,6 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             Log.i("RECEIVED", String.valueOf(message.getSticker()));
             receiveHolder.sticker.setImageDrawable(image);
+            receiveHolder.receiverName.setText(message.getSender());
         } else {
             SenderViewHolder senderHolder = (SenderViewHolder) holder;
             Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
@@ -96,10 +97,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ImageView sticker;
         TextView receiverDate;
         TextView receiverTime;
+        TextView receiverName;
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            receiverName = itemView.findViewById(R.id.receiver_name);
             sticker = itemView.findViewById(R.id.receiver_image);
             receiverDate = itemView.findViewById(R.id.receiver_date);
             receiverTime = itemView.findViewById(R.id.receiver_time);
