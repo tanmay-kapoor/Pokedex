@@ -124,6 +124,11 @@ public class FirebaseActivity extends AppCompatActivity {
         startActivity(new Intent(FirebaseActivity.this, StickerUsageActivity.class));
     }
 
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+    }
+
     private void recyclerView() {
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.messagesRv);
