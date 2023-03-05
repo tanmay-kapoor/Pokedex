@@ -1,6 +1,8 @@
 package edu.northeastern.pokedex.userRV;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,8 @@ import java.util.List;
 
 import edu.northeastern.pokedex.FirebaseActivity;
 import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.assignment7.models.TempPokemon;
+import edu.northeastern.pokedex.models.ParcelableUser;
 import edu.northeastern.pokedex.models.User;
 
 public class UserListActivity extends AppCompatActivity {
@@ -37,16 +41,29 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstances) {
         super.onCreate(savedInstances);
         setContentView(R.layout.user_list);
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        userList = new ArrayList<>();
-
-        getAllUsers();
-        init();
+        init(savedInstances);
     }
 
-    private void init() {
+    private void init(Bundle savedInstances) {
+        userList = new ArrayList<>();
+        if(savedInstances != null) {
+            if(savedInstances.containsKey("current_user")
+            && savedInstances.containsKey("size")) {
+                user = savedInstances.getParcelable("current_user");
+                int size = savedInstances.getInt("size");
+                for (int i = 0; i < size; i++) {
+                    ParcelableUser temp = savedInstances.getParcelable("user_"+ i);
+                    User user = new User(temp.getEmail(), temp.getName(), temp.getUid());
+                    userList.add(user);
+                }
+            }
+        }
+        else {
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            getAllUsers();
+        }
         recyclerView();
+
     }
 
     private void recyclerView() {
@@ -81,5 +98,16 @@ public class UserListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable("current_user", user);
+        outState.putInt("size", userList.size());
+        for (int i = 0; i < userList.size(); i++) {
+            ParcelableUser user = new ParcelableUser(userList.get(i));
+            outState.putParcelable("user_" + i, user);
+        }
+        super.onSaveInstanceState(outState);
     }
 }
