@@ -44,10 +44,10 @@ import edu.northeastern.pokedex.models.Message;
 
 public class FirebaseActivity extends AppCompatActivity {
 
-//    private DatabaseReference messageRef;
+    //    private DatabaseReference messageRef;
     private DatabaseReference mRef;
 
-//    private DatabaseReference stickerRef;
+    //    private DatabaseReference stickerRef;
     private DatabaseReference sRef;
 
     private DatabaseReference userRef;
@@ -156,25 +156,14 @@ public class FirebaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FirebaseActivity.class);
         intent.putExtra("uid", uid);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pIntent = null;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_MUTABLE);
-        } else {
-            pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
-        }
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_MUTABLE);;
 
         Intent intentForReply = new Intent(this, FirebaseActivity.class);
         intentForReply.putExtra("uid", uid);
         intentForReply.putExtra("fromNotification", true);
         intentForReply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent checkIntent = null;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, PendingIntent.FLAG_MUTABLE);
-        } else {
-            PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, PendingIntent.FLAG_ONE_SHOT);
-        }
-
+        PendingIntent checkIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intentForReply, PendingIntent.FLAG_MUTABLE);
 
         String channelId = "id";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
@@ -232,6 +221,7 @@ public class FirebaseActivity extends AppCompatActivity {
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("called again", "yes");
                 long existingChildrenCount = snapshot.getChildrenCount();
                 final long[] cnt = {0};
 
