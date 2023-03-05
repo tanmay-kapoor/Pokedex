@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.northeastern.pokedex.models.Message;
+import edu.northeastern.pokedex.models.TempMessage;
 
 
 public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHolder> {
@@ -101,7 +102,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         Message message = new Message(sender, image, user.getUid(), timestampObject);
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/" + timestamp, message);
+        childUpdates.put("/" + timestamp, new TempMessage(message));
         messageRef.updateChildren(childUpdates);
         Log.i("MSG SENDER", "should've got message");
         ((Activity)context).finish();
