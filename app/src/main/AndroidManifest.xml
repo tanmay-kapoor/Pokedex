@@ -56,6 +56,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".ChooseStickerActivity" />
+        <activity android:name=".userRV.UserListActivity" />
         <activity android:name=".assignment7.pokemonSearch.ChoosePokemonActivity" />
         <activity android:name=".assignment7.PokemonDetailsActivity" />
     </application>

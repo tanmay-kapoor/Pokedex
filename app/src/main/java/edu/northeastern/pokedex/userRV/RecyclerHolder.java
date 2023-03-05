@@ -1,4 +1,35 @@
 package edu.northeastern.pokedex.userRV;
 
-public class RecyclerHolder {
+import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import edu.northeastern.pokedex.FirebaseActivity;
+import edu.northeastern.pokedex.R;
+import edu.northeastern.pokedex.models.User;
+
+public class RecyclerHolder extends RecyclerView.ViewHolder{
+    private Context context;
+    private Intent intent;
+    User user;
+    TextView name;
+
+    public RecyclerHolder(View itemView, final ItemClickListener listener) {
+        super(itemView);
+
+        name = itemView.findViewById(R.id.userNameTV);
+        CardView userItem = itemView.findViewById(R.id.userCV);
+
+        userItem.setOnClickListener(view -> {
+            context = itemView.getContext();
+            intent = new Intent(context, FirebaseActivity.class);
+            intent.putExtra("email", user.getEmail());
+            context.startActivity(intent);
+        });
+    }
+
 }
