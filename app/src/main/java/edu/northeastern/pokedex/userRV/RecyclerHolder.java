@@ -19,6 +19,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
     private Context context;
     private Intent intent;
     TextView name;
+    TextView email;
 
     ImageView dpImage;
 
@@ -26,6 +27,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
         super(itemView);
 
         name = itemView.findViewById(R.id.userNameTV);
+        email = itemView.findViewById(R.id.emailID);
         dpImage = itemView.findViewById(R.id.userDP);
         CardView userItem = itemView.findViewById(R.id.userCV);
 

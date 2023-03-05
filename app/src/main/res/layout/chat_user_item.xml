@@ -34,13 +34,26 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center|clip_vertical|center_horizontal"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="29dp"
                 android:layout_toEndOf="@+id/userDP"
                 android:text="Person Name"
                 android:textSize="24sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/emailID"
+                android:layout_width="285dp"
+                android:layout_height="19dp"
+                android:layout_below="@+id/userNameTV"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="35dp"
+                android:layout_toEndOf="@+id/userDP"
+                android:text="Person email"
+                android:textStyle="italic" />
 
         </RelativeLayout>
 

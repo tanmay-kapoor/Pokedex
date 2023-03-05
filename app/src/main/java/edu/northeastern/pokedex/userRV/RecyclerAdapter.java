@@ -39,6 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         User user = userList.get(position);
         holder.user = user;
         holder.name.setText(user.getName());
+        holder.email.setText(user.getEmail());
         holder.dpImage.setImageResource(R.drawable.person);
 //        holder.email = user.getEmail();
 //        holder.uid = user.getUid();
