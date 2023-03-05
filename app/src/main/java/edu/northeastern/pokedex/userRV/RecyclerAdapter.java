@@ -38,8 +38,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         User user = userList.get(position);
+        holder.user = user;
         holder.name.setText(user.getName());
-        holder.email = user.getEmail();
+//        holder.email = user.getEmail();
+//        holder.uid = user.getUid();
         Log.i("SETTING NAME", user.getName());
     }
 

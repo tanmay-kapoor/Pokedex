@@ -40,8 +40,12 @@ import edu.northeastern.pokedex.models.Message;
 
 public class FirebaseActivity extends AppCompatActivity {
 
-    private DatabaseReference messageRef;
-    private DatabaseReference stickerRef;
+//    private DatabaseReference messageRef;
+    private DatabaseReference mRef;
+
+//    private DatabaseReference stickerRef;
+    private DatabaseReference sRef;
+
     private List<Message> messageList;
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
@@ -58,8 +62,16 @@ public class FirebaseActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        messageRef = mDatabase.child("room1").child("messages");
-        stickerRef = mDatabase.child("room1").child("stickers");
+
+//        messageRef = mDatabase.child("room1").child("messages");
+        String currUid = user.getUid();
+        String otherUid = getIntent().getStringExtra("uid");
+        String key = currUid.compareTo(otherUid) <= 0 ? currUid + "+" + otherUid : otherUid + "+" + currUid;
+        mRef = mDatabase.child("messages").child(key);
+
+//        stickerRef = mDatabase.child("room1").child("stickers");
+        sRef = mDatabase.child("stickers").child(currUid);
+
         messageList = new ArrayList<>();
 
         listenForMessageUpdates();
@@ -153,13 +165,13 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void listenForMessageUpdates() {
-        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long existingChildrenCount = snapshot.getChildrenCount();
                 final long[] cnt = {0};
 
-                messageRef.addChildEventListener(new ChildEventListener() {
+                mRef.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         cnt[0]++;
@@ -179,19 +191,19 @@ public class FirebaseActivity extends AppCompatActivity {
                                 sendNotification(sticker);
                             }
 
-                            DatabaseReference ref = stickerRef.child(user.getUid()).child(Integer.toString(sticker));
+                            DatabaseReference ref = sRef.child(Integer.toString(sticker));
                             ref.setValue(ServerValue.increment(1));
                         }
                     }
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                        Log.d("onChildChanged", "called");
+
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                        // delete from messages map and update screen
+
                     }
 
                     @Override
@@ -211,5 +223,64 @@ public class FirebaseActivity extends AppCompatActivity {
 
             }
         });
+
+//        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                long existingChildrenCount = snapshot.getChildrenCount();
+//                final long[] cnt = {0};
+//
+//                messageRef.addChildEventListener(new ChildEventListener() {
+//                    @Override
+//                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                        cnt[0]++;
+//
+//                        updateMessagesMap(snapshot);
+//                        recyclerAdapter.notifyItemInserted(messageList.size());
+//                        recyclerView.scrollToPosition(messageList.size() - 1);
+//
+//                        if (cnt[0] == existingChildrenCount && getIntent().hasExtra("fromNotification")) {
+//                            startChooseStickerActivity();
+//                        } else if (cnt[0] > existingChildrenCount) {
+//                            Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
+//                            String msgSender = children.next().getValue().toString();
+//                            int sticker = Integer.parseInt(children.next().getValue().toString());
+//
+//                            if (!TextUtils.equals(msgSender, user.getEmail())) {
+//                                sendNotification(sticker);
+//                            }
+//
+//                            DatabaseReference ref = stickerRef.child(user.getUid()).child(Integer.toString(sticker));
+//                            ref.setValue(ServerValue.increment(1));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                        Log.d("onChildChanged", "called");
+//                    }
+//
+//                    @Override
+//                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//                        // delete from messages map and update screen
+//                    }
+//
+//                    @Override
+//                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }
