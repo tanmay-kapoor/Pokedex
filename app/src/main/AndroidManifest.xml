@@ -59,6 +59,7 @@
         <activity android:name=".userRV.UserListActivity" />
         <activity android:name=".assignment7.pokemonSearch.ChoosePokemonActivity" />
         <activity android:name=".assignment7.PokemonDetailsActivity" />
+        <activity android:name=".AboutActivity" />
     </application>
 
 </manifest>

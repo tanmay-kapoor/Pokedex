@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.northeastern.pokedex.FirebaseActivity;
 import edu.northeastern.pokedex.R;
-import edu.northeastern.pokedex.models.User;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder{
     public String email;
@@ -18,7 +17,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
     private Intent intent;
     TextView name;
 
-    public RecyclerHolder(View itemView, final ItemClickListener listener) {
+    public RecyclerHolder(View itemView) {
         super(itemView);
 
         name = itemView.findViewById(R.id.userNameTV);

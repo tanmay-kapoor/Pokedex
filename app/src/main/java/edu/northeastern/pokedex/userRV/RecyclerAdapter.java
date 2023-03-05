@@ -32,7 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_user_item, parent, false);
-        return new RecyclerHolder(view, listener);
+        return new RecyclerHolder(view);
     }
 
     @Override

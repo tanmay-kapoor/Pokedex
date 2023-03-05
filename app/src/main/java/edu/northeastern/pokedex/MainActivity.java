@@ -25,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
     }
 
+    public void aboutActivity(View view) {
+        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+    }
+
     public void startPokemonChooseActivity(View view) {
         startActivity(new Intent(MainActivity.this, ChoosePokemonActivity.class));
     }
