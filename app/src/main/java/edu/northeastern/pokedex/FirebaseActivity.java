@@ -51,6 +51,9 @@ public class FirebaseActivity extends AppCompatActivity {
     private RecyclerAdapter recyclerAdapter;
 
     private FirebaseUser user;
+    private String currUid;
+    private String otherUid;
+    private String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +67,9 @@ public class FirebaseActivity extends AppCompatActivity {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
 //        messageRef = mDatabase.child("room1").child("messages");
-        String currUid = user.getUid();
-        String otherUid = getIntent().getStringExtra("uid");
-        String key = currUid.compareTo(otherUid) <= 0 ? currUid + "+" + otherUid : otherUid + "+" + currUid;
+        currUid = user.getUid();
+        otherUid = getIntent().getStringExtra("uid");
+        key = currUid.compareTo(otherUid) <= 0 ? currUid + "+" + otherUid : otherUid + "+" + currUid;
         mRef = mDatabase.child("messages").child(key);
 
 //        stickerRef = mDatabase.child("room1").child("stickers");
@@ -89,7 +92,9 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void startChooseStickerActivity() {
-        startActivity(new Intent(FirebaseActivity.this, ChooseStickerActivity.class));
+        Intent intent = new Intent(FirebaseActivity.this, ChooseStickerActivity.class);
+        intent.putExtra("recID", otherUid);
+        startActivity(intent);
     }
 
     private void createNotificationChannel() {
@@ -156,7 +161,7 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     private void updateMessagesMap(DataSnapshot snapshot) {
-        long timestamp = Long.parseLong(snapshot.getKey());
+//        long timestamp = Long.parseLong(snapshot.getKey());
         Iterator<DataSnapshot> children = snapshot.getChildren().iterator();
         String sender = children.next().getValue().toString();
         int sticker = Integer.parseInt(children.next().getValue().toString());

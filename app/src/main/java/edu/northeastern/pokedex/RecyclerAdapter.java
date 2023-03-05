@@ -43,9 +43,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.context = context;
     }
 
-//    public void setOnItemClickListener(ItemClickListener listener) {
-//        this.listener = listener;
-//    }
 
 
     @NonNull
@@ -67,11 +64,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Message message = messageList.get(position);
         if(holder.getClass() == ReceiverViewHolder.class) {
             ReceiverViewHolder receiveHolder =  (ReceiverViewHolder) holder;
-            Drawable image = AppCompatResources.getDrawable(context, R.drawable.laugh);
+            Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             receiveHolder.sticker.setImageDrawable(image);
         } else {
             SenderViewHolder senderHolder = (SenderViewHolder) holder;
-            Drawable image = AppCompatResources.getDrawable(context, R.drawable.cry);
+            Drawable image = AppCompatResources.getDrawable(context, message.getSticker());
             senderHolder.sticker.setImageDrawable(image);
         }
     }
@@ -79,7 +76,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
-        if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSender())) {
+        if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(message.getSender())) {
             return SEND;
         } else {
             return RECEIVE;

@@ -1,18 +1,14 @@
 package edu.northeastern.pokedex;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-import android.widget.Toolbar;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,11 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import edu.northeastern.pokedex.models.Message;
 
 public class ChooseStickerActivity extends AppCompatActivity {
 
@@ -54,6 +46,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
         setContentView(R.layout.sticker_recycler);
         getSupportActionBar().setTitle("Stickers");
         String recID = getIntent().getStringExtra("recID");
+        Log.i("RECEIVER", recID);
         stickerList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -122,6 +115,19 @@ public class ChooseStickerActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.logout_button, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ChooseStickerActivity.this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 //    public void sendMessage(int image) {
 //        String timestamp = Long.toString(System.currentTimeMillis());
