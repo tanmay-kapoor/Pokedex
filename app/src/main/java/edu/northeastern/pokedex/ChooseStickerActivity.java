@@ -73,18 +73,6 @@ public class ChooseStickerActivity extends AppCompatActivity {
         stickerRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         stickerAdapter = new StickerAdapter(this, stickerList, recID);
         stickerRecycler.setAdapter(stickerAdapter);
-
-//        LinearLayout ll = findViewById(R.id.LL);
-//        ImageView iv0 = findViewById(R.id.iv0);
-//        iv0.setOnClickListener(view -> sendMessage(R.drawable.smile));
-//        ImageView iv1 = findViewById(R.id.iv1);
-//        iv1.setOnClickListener(view -> sendMessage(R.drawable.laugh));
-//        ImageView iv2 = findViewById(R.id.iv2);
-//        iv2.setOnClickListener(view -> sendMessage(R.drawable.dead_laugh));
-//        ImageView iv3 = findViewById(R.id.iv3);
-//        iv3.setOnClickListener(view -> sendMessage(R.drawable.battered));
-//        ImageView iv4 = findViewById(R.id.iv4);
-//        iv4.setOnClickListener(view -> sendMessage(R.drawable.speculate));
     };
 
     public void sendMessage(int image) {

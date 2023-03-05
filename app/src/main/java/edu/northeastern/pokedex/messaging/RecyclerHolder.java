@@ -24,13 +24,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder{
         super(itemView);
 
         sticker = itemView.findViewById(R.id.sticker);
-//        cardView = itemView.findViewById(R.id.messageCV);
-//
-//        cardView.setOnClickListener(view -> {
-//            Context context = itemView.getContext();
-//            Intent intent = new Intent(context, FirebaseActivity.class);
-//            context.startActivity(intent);
-//        });
+
     }
 
 }
