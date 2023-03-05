@@ -6,11 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +52,7 @@ public class ChooseStickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.sticker_recycler);
+        getSupportActionBar().setTitle("Stickers");
         String recID = getIntent().getStringExtra("recID");
         stickerList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
@@ -114,6 +117,12 @@ public class ChooseStickerActivity extends AppCompatActivity {
         stickerRecycler.setAdapter(stickerAdapter);
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.logout_button, menu);
+        return true;
+    }
 //    public void sendMessage(int image) {
 //        String timestamp = Long.toString(System.currentTimeMillis());
 //
