@@ -2,6 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff00"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Sticker Stats"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/logout"
         android:background="#ff00"
         android:icon="@drawable/ic_baseline_logout_24"
