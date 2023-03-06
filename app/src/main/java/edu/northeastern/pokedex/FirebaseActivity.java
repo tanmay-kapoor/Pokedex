@@ -240,6 +240,11 @@ public class FirebaseActivity extends AppCompatActivity {
                 Log.i("called again", "yes");
                 long existingChildrenCount = snapshot.getChildrenCount();
                 final long[] cnt = {0};
+
+                if(existingChildrenCount == 0) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+
                 mRef.orderByKey().addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
