@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import edu.northeastern.pokedex.assignment7.pokemonSearch.ChoosePokemonActivity;
+import edu.northeastern.pokedex.finalassignment.FinalAppDummyActivity;
 import edu.northeastern.pokedex.userRV.UserListActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,5 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private void startFirebaseActivity() {
 //        startActivity(new Intent(MainActivity.this, FirebaseActivity.class));
         startActivity(new Intent(MainActivity.this, UserListActivity.class));
+    }
+
+    public void startFinalApp(View view) {
+        startActivity(new Intent(MainActivity.this, FinalAppDummyActivity.class));
     }
 }
